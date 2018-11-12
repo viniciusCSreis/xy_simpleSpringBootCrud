@@ -10,9 +10,11 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-import static org.hamcrest.BaseMatcher.*;
 import static org.mockito.ArgumentMatchers.isNotNull;
+import static org.mockito.Mockito.atLeast;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import static org.junit.Assert.*;
@@ -36,15 +38,16 @@ public class CityServiceTest {
     {
         List<City> cities = new ArrayList<>();
 
-        cities.add(new City(1,"Vinicius"));
-        cities.add(new City(2,"Gabriel"));
-        cities.add(new City(3,"Bruno"));
-        cities.add(new City(4,"Murilo"));
+        cities.add(new City(1,"Uberlândia"));
+        cities.add(new City(2,"Uberaba"));
+        cities.add(new City(3,"São Paulo"));
+        cities.add(new City(4,"Belo Horizonte"));
 
         when(cityRepository.findAll()).thenReturn(cities);
 
         List<City> result = cityService.findAll();
 
+        verify(cityRepository,atLeast(1)).findAll();
         assertThat(result,is(notNullValue()));
         assertThat(result.size(), is(4));
         assertThat(result.get(0),is(cities.get(0)));
@@ -53,5 +56,80 @@ public class CityServiceTest {
         assertThat(result.get(3),is(cities.get(3)));
 
     }
+
+    @Test
+    public void testFindOneExist()
+    {
+
+        Optional<City> city = Optional.of(new City(1,"Uberlândia"));
+        when(cityRepository.findById(1l)).thenReturn(city);
+
+        City result = cityService.findOne(1l);
+
+        verify(cityRepository,atLeast(1)).findById(1l);
+        assertThat(result,is(notNullValue()));
+        assertThat(result.getId(), is(city.get().getId()));
+        assertThat(result.getName(),is(city.get().getName()));
+
+    }
+    @Test
+    public void testFindOneNotExist()
+    {
+
+        Optional<City> city = Optional.empty();
+        when(cityRepository.findById(1l)).thenReturn(city);
+
+        City result = cityService.findOne(1l);
+        verify(cityRepository,atLeast(1)).findById(1l);
+        assertThat(result,is(nullValue()));
+
+    }
+
+    @Test
+    public void testCreate()
+    {
+        City city = new City(1,"Uberlândia");
+        when(cityRepository.saveAndFlush(city)).thenReturn(city);
+
+        City result = cityService.create(city);
+
+        verify(cityRepository,atLeast(1)).saveAndFlush(city);
+        assertThat(result,is(notNullValue()));
+        assertThat(result.getId(),is(city.getId()));
+        assertThat(result.getName(),is(city.getName()));
+
+
+
+
+    }
+
+    @Test
+    public void testDelete()
+    {
+        long id = 1;
+
+        cityService.delete(id);
+
+        verify(cityRepository,atLeast(1)).deleteById(id);
+
+
+    }
+
+    @Test
+    public void testUpdate()
+    {
+        City city = new City(1,"Uberlândia");
+
+        when(cityRepository.saveAndFlush(city)).thenReturn(city);
+
+        City result = cityService.update(city);
+
+        verify(cityRepository,atLeast(1)).saveAndFlush(city);
+        assertThat(result,is(notNullValue()));
+        assertThat(result.getId(),is(city.getId()));
+        assertThat(result.getName(),is(city.getName()));
+
+    }
+
 
 }

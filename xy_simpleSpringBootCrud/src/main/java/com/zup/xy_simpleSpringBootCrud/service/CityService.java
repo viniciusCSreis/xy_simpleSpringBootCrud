@@ -10,6 +10,6 @@ public interface CityService {
     City findOne(long id);
     City create(City city);
     City update(City city);
-    City delete(long id);
+    void delete(long id);
 
 }

@@ -1,13 +1,26 @@
 package com.zup.xy_simpleSpringBootCrud.model;
 
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class City {
 
-    private long id;
-    private String nome;
 
-    public City(long id, String nome) {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
+    private String name;
+
+    public City(long id, String name) {
         this.id = id;
-        this.nome = nome;
+        this.name = name;
+    }
+
+    public City() {
     }
 
     public long getId() {
@@ -18,11 +31,11 @@ public class City {
         this.id = id;
     }
 
-    public String getNome() {
-        return nome;
+    public String getName() {
+        return name;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setName(String name) {
+        this.name = name;
     }
 }
