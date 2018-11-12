@@ -47,7 +47,7 @@ public class CityControlerMockTest {
     MockMvc mockMvc;
 
     @Test
-    public void testCreate() {
+    public void testCreate() throws Exception {
 
         String nameCity = "Uberlândia";
         long id = 1;
@@ -55,7 +55,7 @@ public class CityControlerMockTest {
 
         Mockito.when(cityService.create(notNull())).thenReturn(cityCreated);
 
-        try {
+
             mockMvc.perform(post("/cities").contentType(MediaType.APPLICATION_JSON)
                     .content("{\"name\":\""+nameCity+"\"}")
                     .characterEncoding("utf-8")
@@ -66,14 +66,12 @@ public class CityControlerMockTest {
                     .andExpect(jsonPath("$.name",Matchers.is(nameCity)))
                     .andExpect(jsonPath("$.id",Matchers.is((int)id)));
             verify(cityService,atLeast(1)).create(notNull());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
 
     }
 
     @Test
-    public void testPut() {
+    public void testPut() throws Exception {
 
         String nameCity = "Uberlândia";
         long id = 1;
@@ -81,7 +79,6 @@ public class CityControlerMockTest {
 
         Mockito.when(cityService.update(notNull())).thenReturn(cityTobeUpdated);
 
-        try {
             mockMvc.perform(put("/cities/"+id).contentType(MediaType.APPLICATION_JSON)
                     .content("{\"name\":\""+nameCity+"\"}")
                     .characterEncoding("utf-8")
@@ -92,33 +89,26 @@ public class CityControlerMockTest {
                     .andExpect(jsonPath("$.name",Matchers.is(nameCity)))
                     .andExpect(jsonPath("$.id",Matchers.is((int)id)));
             verify(cityService,atLeast(1)).update(notNull());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
 
     }
 
     @Test
-    public void testDelete() {
+    public void testDelete() throws Exception {
 
         long id = 1;
 
-        try {
-            MvcResult mvcResult = mockMvc.perform(delete("/cities/"+id))
+            mockMvc.perform(delete("/cities/"+id))
                     .andDo(print())
                     .andExpect(status().isNoContent())
-                    .andReturn();
+                    .andExpect(jsonPath("$").doesNotExist());
 
-            assertThat(Objects.requireNonNull(mvcResult.getRequest().getContentAsString()).length(), is(0));
-            verify(cityService,atLeast(1)).delete(id);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
 
     }
 
     @Test
-    public void testList() {
+    public void testList() throws Exception {
 
 
         List<City> cities = new ArrayList<>();
@@ -132,7 +122,7 @@ public class CityControlerMockTest {
 
         when(cityService.findAll(notNull())).thenReturn(page);
 
-        try {
+
             mockMvc.perform(get("/cities"))
                     .andDo(print())
                     .andExpect(status().isOk())
@@ -148,10 +138,7 @@ public class CityControlerMockTest {
                     .andExpect(jsonPath("$.numberOfElements",Matchers.is(cities.size())));
 
             verify(cityService,atLeast(1)).findAll(notNull());
-        } catch (Exception e) {
-            e.printStackTrace();
 
-        }
 
     }
 

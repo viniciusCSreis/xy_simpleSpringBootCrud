@@ -4,9 +4,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class XySimpleSpringBootCrudApplication {
+public class Application {
 
 	public static void main(String[] args) {
-		SpringApplication.run(XySimpleSpringBootCrudApplication.class, args);
+		SpringApplication.run(Application.class, args);
 	}
 }

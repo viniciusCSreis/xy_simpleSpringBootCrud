@@ -1,0 +1,19 @@
+
+== Contato
+
+=== Buscar Contatos
+include::{snippets}/test-find-all-city/http-request.adoc[]
+include::{snippets}/test-find-all-city/http-response.adoc[]
+
+=== Cria Contatos
+include::{snippets}/create-contato/http-request.adoc[]
+include::{snippets}/create-contato/http-response.adoc[]
+
+=== Editar Contatos
+include::{snippets}/update-contato/http-request.adoc[]
+include::{snippets}/update-contato/http-response.adoc[]
+
+=== Exclui Contatos
+include::{snippets}/delete-contato/http-request.adoc[]
+include::{snippets}/delete-contato/request-parameters.adoc[]
+include::{snippets}/delete-contato/http-response.adoc[]
