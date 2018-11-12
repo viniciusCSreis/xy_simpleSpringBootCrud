@@ -7,12 +7,14 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.mockito.ArgumentMatchers.isNotNull;
 import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -43,17 +45,21 @@ public class CityServiceTest {
         cities.add(new City(3,"São Paulo"));
         cities.add(new City(4,"Belo Horizonte"));
 
-        when(cityRepository.findAll()).thenReturn(cities);
+        PageRequest pageRequest = new PageRequest(0, 20);
 
-        List<City> result = cityService.findAll();
+        Page<City> page = new PageImpl<>(cities);
+        when(cityRepository.findAll(pageRequest)).thenReturn(page);
 
-        verify(cityRepository,atLeast(1)).findAll();
-        assertThat(result,is(notNullValue()));
-        assertThat(result.size(), is(4));
+        Page<City> pageResult = cityService.findAll(pageRequest);
+
+        List<City> result = pageResult.getContent();
+
+        assertThat(result.size(),is(4));
         assertThat(result.get(0),is(cities.get(0)));
         assertThat(result.get(1),is(cities.get(1)));
         assertThat(result.get(2),is(cities.get(2)));
         assertThat(result.get(3),is(cities.get(3)));
+
 
     }
 
@@ -62,11 +68,11 @@ public class CityServiceTest {
     {
 
         Optional<City> city = Optional.of(new City(1,"Uberlândia"));
-        when(cityRepository.findById(1l)).thenReturn(city);
+        when(cityRepository.findById(1L)).thenReturn(city);
 
-        City result = cityService.findOne(1l);
+        City result = cityService.findOne(1L);
 
-        verify(cityRepository,atLeast(1)).findById(1l);
+        verify(cityRepository,atLeast(1)).findById(1L);
         assertThat(result,is(notNullValue()));
         assertThat(result.getId(), is(city.get().getId()));
         assertThat(result.getName(),is(city.get().getName()));
@@ -77,10 +83,10 @@ public class CityServiceTest {
     {
 
         Optional<City> city = Optional.empty();
-        when(cityRepository.findById(1l)).thenReturn(city);
+        when(cityRepository.findById(1L)).thenReturn(city);
 
-        City result = cityService.findOne(1l);
-        verify(cityRepository,atLeast(1)).findById(1l);
+        City result = cityService.findOne(1L);
+        verify(cityRepository,atLeast(1)).findById(1L);
         assertThat(result,is(nullValue()));
 
     }
@@ -94,6 +100,24 @@ public class CityServiceTest {
         City result = cityService.create(city);
 
         verify(cityRepository,atLeast(1)).saveAndFlush(city);
+        assertThat(result,is(notNullValue()));
+        assertThat(result.getId(),is(city.getId()));
+        assertThat(result.getName(),is(city.getName()));
+
+
+
+
+    }
+
+    @Test
+    public void testCreateEmptyname()
+    {
+        City city = new City(1,"");
+        when(cityRepository.saveAndFlush(city)).thenReturn(city);
+
+        City result = cityService.create(city);
+
+        verify(cityRepository,atLeast(0)).saveAndFlush(city);
         assertThat(result,is(notNullValue()));
         assertThat(result.getId(),is(city.getId()));
         assertThat(result.getName(),is(city.getName()));
