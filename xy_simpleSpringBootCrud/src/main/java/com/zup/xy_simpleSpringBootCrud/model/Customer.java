@@ -1,11 +1,28 @@
 package com.zup.xy_simpleSpringBootCrud.model;
 
+import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+
+@Entity
 public class Customer {
 
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+    @NotBlank
     private String name;
-    private City cityId;
+
+    @ManyToOne
+    private City city;
+
+    public Customer() {
+    }
+
+    public Customer(@NotBlank String name, City city) {
+        this.name = name;
+        this.city = city;
+    }
 
 
     public long getId() {
@@ -24,11 +41,11 @@ public class Customer {
         this.name = name;
     }
 
-    public City getCityId() {
-        return cityId;
+    public City getCity() {
+        return city;
     }
 
-    public void setCityId(City cityId) {
-        this.cityId = cityId;
+    public void setCity(City city) {
+        this.city = city;
     }
 }

@@ -70,11 +70,12 @@ public class CityControlerMockTest {
         String nameCity = "Uberlândia";
         long id = 1;
         City cityTobeUpdated = new City(id,nameCity);
+        String jsonContent = IOUtils.toString(getClass().getClassLoader().getResourceAsStream("payload/createCity.json"));
 
         Mockito.when(cityService.update(notNull())).thenReturn(cityTobeUpdated);
 
             mockMvc.perform(put("/cities/"+id).contentType(MediaType.APPLICATION_JSON)
-                    .content("{\"name\":\""+nameCity+"\"}")
+                    .content(jsonContent)
                     .characterEncoding("utf-8")
             )
                     .andDo(print())

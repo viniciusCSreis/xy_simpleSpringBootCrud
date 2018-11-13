@@ -60,6 +60,8 @@ public class CityServiceTest {
         assertThat(result.get(2),is(cities.get(2)));
         assertThat(result.get(3),is(cities.get(3)));
 
+        verify(cityRepository,atLeast(1)).findAll(pageRequest);
+
 
     }
 
@@ -155,5 +157,37 @@ public class CityServiceTest {
 
     }
 
+    @Test
+    public void testSearchByName()
+    {
+
+        String name = "ube";
+
+        List<City> cities = new ArrayList<>();
+
+        cities.add(new City(1,"Uberlândia"));
+        cities.add(new City(2,"Uberaba"));
+
+        PageRequest pageRequest = new PageRequest(0, 20);
+
+        Page<City> page = new PageImpl<>(cities);
+        when(cityRepository.findByNameIgnoreCaseContaining(pageRequest,name)).thenReturn(page);
+
+        Page<City> pageResult = cityService.searchByName(pageRequest,name);
+
+        List<City> result = pageResult.getContent();
+
+        assertThat(result.size(),is(2));
+        assertThat(result.get(0),is(cities.get(0)));
+        assertThat(result.get(1),is(cities.get(1)));
+
+        verify(cityRepository,atLeast(1)).findByNameIgnoreCaseContaining(pageRequest,name);
+
+    }
+
+    @Test
+    public void testUpdateCityNotFound(){
+        assertThat(false,is(true));
+    }
 
 }

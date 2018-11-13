@@ -78,7 +78,7 @@ public class CityControlerTest extends AbstractTest {
 
         String jsonContent = IOUtils.toString(getClass().getClassLoader().getResourceAsStream("payload/createCity.json"));
 
-        this.mockMvc.perform(post(PATH).content(jsonContent).characterEncoding("UTF8").contentType(MediaType.APPLICATION_JSON))
+        this.mockMvc.perform(post(PATH).content(jsonContent).characterEncoding("utf-8").contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("id", Matchers.notNullValue()))
@@ -96,7 +96,7 @@ public class CityControlerTest extends AbstractTest {
         String jsonContent = JSONObject.toJSONString(data);
 
 
-        this.mockMvc.perform(post(PATH).content(jsonContent).characterEncoding("UTF8").contentType(MediaType.APPLICATION_JSON))
+        this.mockMvc.perform(post(PATH).content(jsonContent).characterEncoding("utf-8").contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isBadRequest());
 
@@ -110,7 +110,7 @@ public class CityControlerTest extends AbstractTest {
 
         String jsonContent = IOUtils.toString(getClass().getClassLoader().getResourceAsStream("payload/createCity.json"));
 
-        this.mockMvc.perform(put(PATH+"/"+city.getId()).content(jsonContent).characterEncoding("UTF8").contentType(MediaType.APPLICATION_JSON))
+        this.mockMvc.perform(put(PATH+"/"+city.getId()).content(jsonContent).characterEncoding("utf-8").contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("id", Matchers.is((int)city.getId())))
@@ -129,7 +129,7 @@ public class CityControlerTest extends AbstractTest {
 
         String jsonContent = JSONObject.toJSONString(data);
 
-        this.mockMvc.perform(put(PATH+"/"+city.getId()).content(jsonContent).characterEncoding("UTF8").contentType(MediaType.APPLICATION_JSON))
+        this.mockMvc.perform(put(PATH+"/"+city.getId()).content(jsonContent).characterEncoding("utf-8").contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isBadRequest());
 
