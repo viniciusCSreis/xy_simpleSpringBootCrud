@@ -24,6 +24,10 @@ public class City {
         this.name = name;
     }
 
+    public City(@NotBlank String name) {
+        this.name = name;
+    }
+
     public City() {
     }
 

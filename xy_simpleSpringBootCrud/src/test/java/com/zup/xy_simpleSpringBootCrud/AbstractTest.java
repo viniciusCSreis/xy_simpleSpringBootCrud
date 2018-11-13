@@ -38,7 +38,7 @@ public abstract class AbstractTest {
     protected WebApplicationContext context;
 
     @Autowired
-    protected CityRepository repository;
+    protected CityRepository cityRepository;
 
     protected MockMvc mockMvc;
 

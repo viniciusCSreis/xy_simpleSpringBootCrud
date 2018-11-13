@@ -1,19 +1,34 @@
 
-== Contato
+== Cities
 
-=== Buscar Contatos
+=== List all cities
 include::{snippets}/test-find-all-city/http-request.adoc[]
 include::{snippets}/test-find-all-city/http-response.adoc[]
 
-=== Cria Contatos
-include::{snippets}/create-contato/http-request.adoc[]
-include::{snippets}/create-contato/http-response.adoc[]
+=== Create city
+include::{snippets}/test-create-city/http-request.adoc[]
+include::{snippets}/test-create-city/http-response.adoc[]
 
-=== Editar Contatos
-include::{snippets}/update-contato/http-request.adoc[]
-include::{snippets}/update-contato/http-response.adoc[]
+=== Create city with Empty name
+include::{snippets}/test-create-city-empty-name/http-request.adoc[]
+include::{snippets}/test-create-city-empty-name/http-response.adoc[]
 
-=== Exclui Contatos
-include::{snippets}/delete-contato/http-request.adoc[]
-include::{snippets}/delete-contato/request-parameters.adoc[]
-include::{snippets}/delete-contato/http-response.adoc[]
+=== Delete city
+include::{snippets}/test-delete-city/http-request.adoc[]
+include::{snippets}/test-delete-city/http-response.adoc[]
+
+=== Edit city
+include::{snippets}/test-update-city/http-request.adoc[]
+include::{snippets}/test-update-city/http-response.adoc[]
+
+=== Edit city with Empty name
+include::{snippets}/test-update-city-empty-name/http-request.adoc[]
+include::{snippets}/test-update-city-empty-name/http-response.adoc[]
+
+=== Search by id
+include::{snippets}/test-search-by-id/http-request.adoc[]
+include::{snippets}/test-search-by-id/http-response.adoc[]
+
+=== Search by name
+include::{snippets}/test-search-by-name/http-request.adoc[]
+include::{snippets}/test-search-by-name/http-response.adoc[]

@@ -8,7 +8,7 @@
 Bem-vindo à documentação da API do painel de controle Contatos. Essa documentação da API fornecerá informações suficientes sobre os recursos e as operações suportadas na versão atual. Esta API está seguindo as convenções Restful.
 
 === Como usar
-As solicitações devem ser feitas usando o protocolo HTTPS. A interface responde a diferentes métodos, dependendo da ação necessária.
+As solicitações devem ser feitas usando o protocolo HTTP. A interface responde a diferentes métodos, dependendo da ação necessária.
 
 === HTTP Métodos
 Os métodos permitidos são:
@@ -18,6 +18,15 @@ Os métodos permitidos são:
 
 | `GET`
 | Usado para obter informações sobre um recurso
+
+| `POST`
+| Usado para criar informações sobre um recurso
+
+| `PUT`
+| Usado para editar informações sobre um recurso
+
+| `DELETE`
+| Usado para deletar informações sobre um recurso
 
 |===
 
@@ -34,8 +43,12 @@ Os códigos HTTP suportados são:
 | `201 Created`
 | O novo recurso foi criado com sucesso
 
-| `202 Accepted`
-| O novo recurso foi aceito com sucesso
+| `204 No Content`
+| The server successfully processed the request and is not returning any content
+
+| `400 Bad Request`
+|
+The server cannot or will not process the request due to an apparent client error (e.g., malformed request syntax, size too large, invalid request message framing, or deceptive request routing).
 
 |===
 

@@ -2,6 +2,7 @@ package com.zup.xy_simpleSpringBootCrud.controler;
 
 import com.zup.xy_simpleSpringBootCrud.model.City;
 import com.zup.xy_simpleSpringBootCrud.service.CityService;
+import org.apache.commons.io.IOUtils;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,11 +15,9 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import static org.mockito.ArgumentMatchers.notNull;
 import static org.mockito.Mockito.atLeast;
@@ -31,9 +30,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-
-import static org.junit.Assert.*;
-import static org.hamcrest.Matchers.*;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(CityControler.class)
@@ -48,23 +44,21 @@ public class CityControlerMockTest {
 
     @Test
     public void testCreate() throws Exception {
-
-        String nameCity = "Uberlândia";
-        long id = 1;
-        City cityCreated = new City(id,nameCity);
+        String jsonContent = IOUtils.toString(getClass().getClassLoader().getResourceAsStream("payload/createCity.json"));
+        City cityCreated = new City(1,"Uberlândia");
 
         Mockito.when(cityService.create(notNull())).thenReturn(cityCreated);
 
 
             mockMvc.perform(post("/cities").contentType(MediaType.APPLICATION_JSON)
-                    .content("{\"name\":\""+nameCity+"\"}")
+                    .content(jsonContent)
                     .characterEncoding("utf-8")
             )
                     .andDo(print())
                     .andExpect(status().isCreated())
                     .andExpect(jsonPath("$",Matchers.notNullValue()))
-                    .andExpect(jsonPath("$.name",Matchers.is(nameCity)))
-                    .andExpect(jsonPath("$.id",Matchers.is((int)id)));
+                    .andExpect(jsonPath("$.name",Matchers.is(cityCreated.getName())))
+                    .andExpect(jsonPath("$.id",Matchers.is((int)cityCreated.getId())));
             verify(cityService,atLeast(1)).create(notNull());
 
 
