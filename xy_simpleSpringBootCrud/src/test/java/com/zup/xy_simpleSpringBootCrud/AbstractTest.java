@@ -1,6 +1,7 @@
 package com.zup.xy_simpleSpringBootCrud;
 
 import com.zup.xy_simpleSpringBootCrud.repository.CityRepository;
+import com.zup.xy_simpleSpringBootCrud.repository.CustomerRepository;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.runner.RunWith;
@@ -39,6 +40,10 @@ public abstract class AbstractTest {
 
     @Autowired
     protected CityRepository cityRepository;
+
+
+    @Autowired
+    protected CustomerRepository customerRepository;
 
     protected MockMvc mockMvc;
 

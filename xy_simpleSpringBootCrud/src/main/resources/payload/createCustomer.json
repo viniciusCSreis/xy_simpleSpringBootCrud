@@ -1,0 +1,8 @@
+{
+  "id":1,
+  "name":"TestCustomer",
+  "city":{
+    "id":"1"
+  }
+
+}
