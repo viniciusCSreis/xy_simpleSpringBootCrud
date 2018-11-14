@@ -2,13 +2,13 @@ package com.zup.xy_simpleSpringBootCrud;
 
 import com.zup.xy_simpleSpringBootCrud.repository.CityRepository;
 import com.zup.xy_simpleSpringBootCrud.repository.CustomerRepository;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Profile;
 import org.springframework.restdocs.JUnitRestDocumentation;
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation;
 import org.springframework.restdocs.mockmvc.RestDocumentationResultHandler;
@@ -21,13 +21,13 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
-import javax.servlet.FilterConfig;
 
 @WebAppConfiguration
 @SpringBootTest
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = Application.class)
 @Transactional
+@Profile("test")
 public abstract class AbstractTest {
 
     @Rule
@@ -58,4 +58,5 @@ public abstract class AbstractTest {
                 .alwaysDo(this.documentationResultHandler)
                 .build();
     }
+
 }

@@ -3,6 +3,7 @@ package com.zup.xy_simpleSpringBootCrud.service;
 import com.zup.xy_simpleSpringBootCrud.model.City;
 import com.zup.xy_simpleSpringBootCrud.model.Customer;
 import com.zup.xy_simpleSpringBootCrud.repository.CustomerRepository;
+import com.zup.xy_simpleSpringBootCrud.util.FieldException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -39,9 +40,7 @@ public class CustomerServiceImp implements CustomerService {
     @Override
     public Customer findOne(long id) {
         Optional<Customer> customer = customerRepository.findById(id);
-        if(customer.isPresent())
-            return customer.get();
-        return null;
+        return customer.orElse(null);
 
     }
 
@@ -53,6 +52,12 @@ public class CustomerServiceImp implements CustomerService {
 
     @Override
     public Customer update(Customer customer) {
+
+        Optional<Customer> customerById = customerRepository.findById(customer.getId());
+        if(!customerById.isPresent()){
+            throw new FieldException("Customer Id not fould");
+        }
+
         return customerRepository.save(customer);
     }
 

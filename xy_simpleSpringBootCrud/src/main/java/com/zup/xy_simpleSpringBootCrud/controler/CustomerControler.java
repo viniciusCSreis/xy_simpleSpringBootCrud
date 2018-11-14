@@ -1,7 +1,6 @@
 package com.zup.xy_simpleSpringBootCrud.controler;
 
 import com.zup.xy_simpleSpringBootCrud.model.Customer;
-import com.zup.xy_simpleSpringBootCrud.repository.CustomerRepository;
 import com.zup.xy_simpleSpringBootCrud.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -9,20 +8,18 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.nio.file.Path;
-import java.util.List;
+import javax.validation.Valid;
 
 @RestController
 public class CustomerControler {
 
 
     @Autowired
-
     CustomerService customerService;
 
     @PostMapping(path = "customers")
     @ResponseStatus(HttpStatus.CREATED)
-    public Customer teste(@RequestBody Customer customer){
+    public Customer teste(@Valid @RequestBody Customer customer){
         return customerService.create(customer);
     }
 
@@ -38,7 +35,8 @@ public class CustomerControler {
     }
 
     @PutMapping(path = "customers/{id}")
-    public Customer edit(@PathVariable long id, @RequestBody Customer customer){
+    public Customer edit(@PathVariable long id, @Valid @RequestBody Customer customer){
+        customer.setId(id);
         return customerService.update(customer);
     }
 
@@ -51,5 +49,8 @@ public class CustomerControler {
     public Page<Customer> searchByName(Pageable pageable,@RequestParam String name){
         return customerService.searchByName(pageable,name);
     }
+
+
+
 
 }

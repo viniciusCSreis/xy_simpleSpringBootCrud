@@ -1,6 +1,5 @@
 package com.zup.xy_simpleSpringBootCrud.controler;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zup.xy_simpleSpringBootCrud.AbstractTest;
 import com.zup.xy_simpleSpringBootCrud.model.City;
 import net.minidev.json.JSONObject;
@@ -8,20 +7,13 @@ import org.apache.commons.io.IOUtils;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static java.lang.String.valueOf;
-import static org.junit.Assert.*;
-import static org.hamcrest.Matchers.*;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -132,6 +124,21 @@ public class CityControlerTest extends AbstractTest {
         this.mockMvc.perform(put(PATH+"/"+city.getId()).content(jsonContent).characterEncoding("utf-8").contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isBadRequest());
+
+
+    }
+
+    @Test
+    public void testUpdateCityWrongId() throws Exception {
+
+        City city = saveOneCity();
+
+
+        String jsonContent = IOUtils.toString(getClass().getClassLoader().getResourceAsStream("payload/createCity.json"));
+
+        this.mockMvc.perform(put(PATH+"/"+city.getId()+1000).content(jsonContent).characterEncoding("utf-8").contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isNotFound());
 
 
     }

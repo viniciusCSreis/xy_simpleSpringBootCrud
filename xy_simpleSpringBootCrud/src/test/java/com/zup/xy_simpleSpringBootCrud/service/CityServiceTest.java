@@ -146,7 +146,9 @@ public class CityServiceTest {
     {
         City city = new City(1,"Uberlândia");
 
+        Optional<City> resultCity = Optional.of(city);
         when(cityRepository.saveAndFlush(city)).thenReturn(city);
+        when(cityRepository.findById(city.getId())).thenReturn(resultCity);
 
         City result = cityService.update(city);
 
@@ -185,9 +187,5 @@ public class CityServiceTest {
 
     }
 
-    @Test
-    public void testUpdateCityNotFound(){
-        assertThat(false,is(true));
-    }
 
 }

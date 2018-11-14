@@ -77,7 +77,7 @@ public class CustomerControlerMockTest {
 
         Mockito.when(customerService.update(notNull())).thenReturn(customer);
 
-        mockMvc.perform(put("/customer/"+id).contentType(MediaType.APPLICATION_JSON)
+        mockMvc.perform(put("/customers/"+id).contentType(MediaType.APPLICATION_JSON)
                 .content(jsonContent)
                 .characterEncoding("utf-8")
         )

@@ -1,5 +1,6 @@
 package com.zup.xy_simpleSpringBootCrud.controler;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zup.xy_simpleSpringBootCrud.AbstractTest;
 import com.zup.xy_simpleSpringBootCrud.model.City;
 import com.zup.xy_simpleSpringBootCrud.model.Customer;
@@ -18,12 +19,15 @@ public class CustomerControlerTest extends AbstractTest {
 
     private final String PATH = "/customers";
     private City city1;
+    private City city2;
     private String customerNameJson = "TestCustomer";
 
     @Before
     public void createCity(){
         this.city1 = new City("Uberlândia");
-        cityRepository.saveAndFlush(city1);
+        this.city1 = cityRepository.saveAndFlush(city1);
+        this.city2 = new City("Uberaba");
+        this.city2 =cityRepository.saveAndFlush(city2);
     }
 
     @Test
@@ -84,6 +88,17 @@ public class CustomerControlerTest extends AbstractTest {
     }
 
     @Test
+    public void testCreateCustomerWrongCity() throws Exception {
+
+        String jsonContent = IOUtils.toString(getClass().getClassLoader().getResourceAsStream("payload/createCustomerWrongCity.json"));
+
+        this.mockMvc.perform(post(PATH).content(jsonContent).characterEncoding("utf-8").contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isNotFound());
+
+    }
+
+    @Test
     public void testCreateCustomerEmptyName() throws Exception {
 
         String jsonContent = IOUtils.toString(getClass().getClassLoader().getResourceAsStream("payload/createCustomerEmptyName.json"));
@@ -100,14 +115,56 @@ public class CustomerControlerTest extends AbstractTest {
     public void testUpdateCustomerName() throws Exception {
 
         Customer customer = saveOneCustomer();
-
-        String jsonContent = IOUtils.toString(getClass().getClassLoader().getResourceAsStream("payload/createCustomer.json"));
+        customer.setName("NewName");
+        ObjectMapper objectMapper = new ObjectMapper();
+        String jsonContent = objectMapper.writeValueAsString(customer);
 
         this.mockMvc.perform(put(PATH+"/"+customer.getId()).content(jsonContent).characterEncoding("utf-8").contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("id", Matchers.is((int)customer.getId())))
-                .andExpect(jsonPath("name",Matchers.is(customerNameJson)));
+                .andExpect(jsonPath("name",Matchers.is(customer.getName())))
+                .andExpect(jsonPath("city.id",Matchers.is((int)customer.getCity().getId())))
+                .andExpect(jsonPath("city.name",Matchers.is(customer.getCity().getName())));
+
+
+    }
+
+    @Test
+    public void testUpdateCustomerCity() throws Exception {
+
+        Customer customer = saveOneCustomer();
+        customer.setCity(city2);
+        ObjectMapper objectMapper = new ObjectMapper();
+        String jsonContent = objectMapper.writeValueAsString(customer);
+
+        this.mockMvc.perform(put(PATH+"/"+customer.getId()).content(jsonContent).characterEncoding("utf-8").contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("id", Matchers.is((int)customer.getId())))
+                .andExpect(jsonPath("name",Matchers.is(customer.getName())))
+                .andExpect(jsonPath("city.id",Matchers.is((int)customer.getCity().getId())))
+                .andExpect(jsonPath("city.name",Matchers.is(customer.getCity().getName())));
+
+
+    }
+
+    @Test
+    public void testUpdateCustomerCityAndName() throws Exception {
+
+        Customer customer = saveOneCustomer();
+        customer.setName("NewName");
+        customer.setCity(city2);
+        ObjectMapper objectMapper = new ObjectMapper();
+        String jsonContent = objectMapper.writeValueAsString(customer);
+
+        this.mockMvc.perform(put(PATH+"/"+customer.getId()).content(jsonContent).characterEncoding("utf-8").contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("id", Matchers.is((int)customer.getId())))
+                .andExpect(jsonPath("name",Matchers.is(customer.getName())))
+                .andExpect(jsonPath("city.id",Matchers.is((int)customer.getCity().getId())))
+                .andExpect(jsonPath("city.name",Matchers.is(customer.getCity().getName())));
 
 
     }
@@ -123,6 +180,21 @@ public class CustomerControlerTest extends AbstractTest {
         this.mockMvc.perform(put(PATH+"/"+customer.getId()).content(jsonContent).characterEncoding("utf-8").contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isBadRequest());
+
+
+    }
+
+    @Test
+    public void testUpdateCityWrongId() throws Exception {
+
+        Customer customer = saveOneCustomer();
+
+
+        String jsonContent = IOUtils.toString(getClass().getClassLoader().getResourceAsStream("payload/createCustomer.json"));
+
+        this.mockMvc.perform(put(PATH+"/"+customer.getId()+1000).content(jsonContent).characterEncoding("utf-8").contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isNotFound());
 
 
     }

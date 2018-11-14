@@ -2,6 +2,7 @@ package com.zup.xy_simpleSpringBootCrud.service;
 
 import com.zup.xy_simpleSpringBootCrud.model.City;
 import com.zup.xy_simpleSpringBootCrud.repository.CityRepository;
+import com.zup.xy_simpleSpringBootCrud.util.FieldException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -30,9 +31,7 @@ public class CityServiceImp implements CityService {
     public City findOne(long id) {
 
         Optional<City> city = cityRepository.findById(id);
-        if(city.isPresent())
-            return city.get();
-        return null;
+        return city.orElse(null);
 
     }
 
@@ -44,6 +43,12 @@ public class CityServiceImp implements CityService {
 
     @Override
     public City update(City city) {
+
+        Optional<City> cityById = cityRepository.findById(city.getId());
+        if(!cityById.isPresent()){
+            throw new FieldException("City Id not found");
+        }
+
         return cityRepository.saveAndFlush(city);
     }
 

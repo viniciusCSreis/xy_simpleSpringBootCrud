@@ -86,7 +86,7 @@ public class CustomerServiceTest {
         assertThat(result.get(2),is(customers.get(2)));
         assertThat(result.get(3),is(customers.get(3)));
 
-    };
+    }
     @Test
     public void testSearchByName(){
 
@@ -111,7 +111,7 @@ public class CustomerServiceTest {
 
         verify(customerRepository,atLeast(1)).findByNameIgnoreCaseContaining(pageRequest,name);
 
-    };
+    }
     @Test
     public void testSearchByCityId(){
 
@@ -141,7 +141,7 @@ public class CustomerServiceTest {
         verify(cityService,atLeast(1)).findOne(cityId);
 
 
-    };
+    }
     @Test
     public void testFindOne(){
         Optional<Customer> customer = Optional.of(new Customer("Vinicius",new City(1,"Uberlândia")));
@@ -155,14 +155,15 @@ public class CustomerServiceTest {
         assertThat(result.getName(), is(customer.get().getName()));
         assertThat(result.getCity(),is(customer.get().getCity()));
 
-    };
+    }
     @Test
     public void testUpdate(){
 
         Customer customer = new Customer("Vinicius",new City(1,"Uberlândia"));
         customer.setId(1);
+        Optional<Customer> resultCity = Optional.of(customer);
         when(customerRepository.save(customer)).thenReturn(customer);
-
+        when(customerRepository.findById(customer.getId())).thenReturn(resultCity);
         Customer result = customerServiceImp.update(customer);
 
         assertThat(result,notNullValue());
@@ -170,7 +171,7 @@ public class CustomerServiceTest {
         assertThat(result.getName(), is(customer.getName()));
         assertThat(result.getCity(),is(customer.getCity()));
         verify(customerRepository,atLeast(1)).save(customer);
-    };
+    }
 
     @Test
     public void testDelete(){
@@ -178,7 +179,7 @@ public class CustomerServiceTest {
         long id = 1;
         customerServiceImp.delete(id);
         verify(customerRepository,atLeast(1)).deleteById(id);
-    };
+    }
 
 
     @Test
