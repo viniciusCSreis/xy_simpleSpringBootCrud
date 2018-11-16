@@ -40,7 +40,7 @@ public class CustomerControlerTest extends AbstractTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.content",Matchers.hasSize(2)))
-                .andExpect(jsonPath("$.totalElements",Matchers.is(5)));
+                .andExpect(jsonPath("$.totalElements",Matchers.greaterThanOrEqualTo(5)));
 
 
     }
@@ -76,8 +76,10 @@ public class CustomerControlerTest extends AbstractTest {
     @Test
     public void testCreateCustomer() throws Exception {
 
-        String jsonContent = IOUtils.toString(getClass().getClassLoader().getResourceAsStream("payload/createCustomer.json"));
 
+        Customer customer = new Customer(customerNameJson,city1);
+        ObjectMapper objectMapper = new ObjectMapper();
+        String jsonContent = objectMapper.writeValueAsString(customer);
         this.mockMvc.perform(post(PATH).content(jsonContent).characterEncoding("utf-8").contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isCreated())
@@ -94,7 +96,7 @@ public class CustomerControlerTest extends AbstractTest {
 
         this.mockMvc.perform(post(PATH).content(jsonContent).characterEncoding("utf-8").contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().isNotFound());
+                .andExpect(status().isBadRequest());
 
     }
 

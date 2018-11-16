@@ -57,3 +57,5 @@ Os recursos da API V1 são detalhados nesta seção.
 
 include::city.adoc[]
 
+include::customer.adoc[]
+

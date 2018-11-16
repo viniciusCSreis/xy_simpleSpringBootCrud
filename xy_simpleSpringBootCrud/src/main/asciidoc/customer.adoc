@@ -1,0 +1,39 @@
+
+== Cities
+
+=== List all customers
+include::{snippets}/test-find-all-customers/http-request.adoc[]
+include::{snippets}/test-find-all-customers/http-response.adoc[]
+
+=== Create customers
+include::{snippets}/test-create-customer/http-request.adoc[]
+include::{snippets}/test-create-customer/http-response.adoc[]
+
+=== Create customer with Empty name
+include::{snippets}/test-create-customer-empty-name/http-request.adoc[]
+include::{snippets}/test-create-customer-empty-name/http-response.adoc[]
+
+
+=== Create customer with Wrong city id
+include::{snippets}/test-create-customer-wrong-city/http-request.adoc[]
+include::{snippets}/test-create-customer-wrong-city/http-response.adoc[]
+
+=== Delete customer
+include::{snippets}/test-delete-customer/http-request.adoc[]
+include::{snippets}/test-delete-customer/http-response.adoc[]
+
+=== Edit customer
+include::{snippets}/test-update-customer/http-request.adoc[]
+include::{snippets}/test-update-customer/http-response.adoc[]
+
+=== Edit customer with Empty name
+include::{snippets}/test-update-customer-empty-name/http-request.adoc[]
+include::{snippets}/test-update-customer-empty-name/http-response.adoc[]
+
+=== Search by id
+include::{snippets}/test-search-by-id/http-request.adoc[]
+include::{snippets}/test-search-by-id/http-response.adoc[]
+
+=== Search by name
+include::{snippets}/test-search-by-name/http-request.adoc[]
+include::{snippets}/test-search-by-name/http-response.adoc[]

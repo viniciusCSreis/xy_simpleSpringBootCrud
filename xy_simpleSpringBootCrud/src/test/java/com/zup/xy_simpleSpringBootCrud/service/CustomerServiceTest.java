@@ -47,7 +47,7 @@ public class CustomerServiceTest {
         Customer customer = new Customer("Vinicius",new City(1,"Uberlândia"));
         Customer customerCreated = new Customer("Vinicius",new City(1,"Uberlândia"));
         customerCreated.setId(1);
-        when(customerRepository.save(customer)).thenReturn(customerCreated);
+        when(customerRepository.saveAndFlush(customer)).thenReturn(customerCreated);
 
         Customer result = customerServiceImp.create(customer);
 
@@ -55,7 +55,7 @@ public class CustomerServiceTest {
         assertThat(result.getId(), is(customerCreated.getId()));
         assertThat(result.getName(), is(customerCreated.getName()));
         assertThat(result.getCity(),is(customerCreated.getCity()));
-        verify(customerRepository,atLeast(1)).save(customer);
+        verify(customerRepository,atLeast(1)).saveAndFlush(customer);
 
 
 
@@ -162,7 +162,7 @@ public class CustomerServiceTest {
         Customer customer = new Customer("Vinicius",new City(1,"Uberlândia"));
         customer.setId(1);
         Optional<Customer> resultCity = Optional.of(customer);
-        when(customerRepository.save(customer)).thenReturn(customer);
+        when(customerRepository.saveAndFlush(customer)).thenReturn(customer);
         when(customerRepository.findById(customer.getId())).thenReturn(resultCity);
         Customer result = customerServiceImp.update(customer);
 
@@ -170,7 +170,7 @@ public class CustomerServiceTest {
         assertThat(result.getId(), is(customer.getId()));
         assertThat(result.getName(), is(customer.getName()));
         assertThat(result.getCity(),is(customer.getCity()));
-        verify(customerRepository,atLeast(1)).save(customer);
+        verify(customerRepository,atLeast(1)).saveAndFlush(customer);
     }
 
     @Test

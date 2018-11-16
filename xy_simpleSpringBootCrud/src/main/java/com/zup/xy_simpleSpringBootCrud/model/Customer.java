@@ -1,5 +1,9 @@
 package com.zup.xy_simpleSpringBootCrud.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
@@ -10,6 +14,7 @@ public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+
     @NotBlank
     private String name;
 

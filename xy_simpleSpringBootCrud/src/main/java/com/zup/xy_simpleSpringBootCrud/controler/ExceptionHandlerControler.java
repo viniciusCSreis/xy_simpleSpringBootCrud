@@ -44,4 +44,6 @@ public class ExceptionHandlerControler {
     public String exceptionHandlerDataIntegrity(DataIntegrityViolationException e){
         return e.getMessage();
     }
+
+
 }

@@ -19,12 +19,12 @@ public class CustomerControler {
 
     @PostMapping(path = "customers")
     @ResponseStatus(HttpStatus.CREATED)
-    public Customer teste(@Valid @RequestBody Customer customer){
+    public Customer create(@Valid @RequestBody Customer customer){
         return customerService.create(customer);
     }
 
     @GetMapping(path = "customers")
-    public Page<Customer> testeList(Pageable pageable){
+    public Page<Customer> list(Pageable pageable){
         return customerService.findAll(pageable);
     }
 

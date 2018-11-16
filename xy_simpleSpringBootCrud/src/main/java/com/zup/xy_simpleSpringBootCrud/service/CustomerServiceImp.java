@@ -47,7 +47,7 @@ public class CustomerServiceImp implements CustomerService {
     @Override
     public Customer create(Customer customer) {
         customer.setId(0);
-        return customerRepository.save(customer);
+        return customerRepository.saveAndFlush(customer);
     }
 
     @Override
@@ -58,7 +58,7 @@ public class CustomerServiceImp implements CustomerService {
             throw new FieldException("Customer Id not fould");
         }
 
-        return customerRepository.save(customer);
+        return customerRepository.saveAndFlush(customer);
     }
 
     @Override

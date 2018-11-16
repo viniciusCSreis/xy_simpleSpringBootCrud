@@ -27,7 +27,6 @@ import org.springframework.web.context.WebApplicationContext;
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = Application.class)
 @Transactional
-@Profile("test")
 public abstract class AbstractTest {
 
     @Rule
