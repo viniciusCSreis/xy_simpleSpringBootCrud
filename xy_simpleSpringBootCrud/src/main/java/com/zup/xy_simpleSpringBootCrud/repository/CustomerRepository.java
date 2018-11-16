@@ -8,5 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CustomerRepository extends JpaRepository<Customer,Long> {
     Page<Customer> findByNameIgnoreCaseContaining(Pageable pageable, String name);
-    Page<Customer> findByCityId(Pageable pageable, City id);
+    Page<Customer> findByCity(Pageable pageable, City city);
 }

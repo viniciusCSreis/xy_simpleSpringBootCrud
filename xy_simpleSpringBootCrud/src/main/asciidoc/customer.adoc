@@ -1,5 +1,5 @@
 
-== Cities
+== Customers
 
 === List all customers
 include::{snippets}/test-find-all-customers/http-request.adoc[]
@@ -22,18 +22,30 @@ include::{snippets}/test-create-customer-wrong-city/http-response.adoc[]
 include::{snippets}/test-delete-customer/http-request.adoc[]
 include::{snippets}/test-delete-customer/http-response.adoc[]
 
-=== Edit customer
-include::{snippets}/test-update-customer/http-request.adoc[]
-include::{snippets}/test-update-customer/http-response.adoc[]
+=== Edit customer City and Name
+include::{snippets}/test-update-customer-city-and-name/http-request.adoc[]
+include::{snippets}/test-update-customer-city-and-name/http-response.adoc[]
 
 === Edit customer with Empty name
 include::{snippets}/test-update-customer-empty-name/http-request.adoc[]
 include::{snippets}/test-update-customer-empty-name/http-response.adoc[]
 
+=== Edit customer Wrong City
+include::{snippets}/test-update-customer-wrong-city/http-request.adoc[]
+include::{snippets}/test-update-customer-wrong-city/http-response.adoc[]
+
+=== Edit customer Wrong Id
+include::{snippets}/test-update-customer-wrong-id/http-request.adoc[]
+include::{snippets}/test-update-customer-wrong-id/http-response.adoc[]
+
 === Search by id
-include::{snippets}/test-search-by-id/http-request.adoc[]
-include::{snippets}/test-search-by-id/http-response.adoc[]
+include::{snippets}/test-search-customer-by-id/http-request.adoc[]
+include::{snippets}/test-search-customer-by-id/http-response.adoc[]
 
 === Search by name
-include::{snippets}/test-search-by-name/http-request.adoc[]
-include::{snippets}/test-search-by-name/http-response.adoc[]
+include::{snippets}/test-search-customer-by-name/http-request.adoc[]
+include::{snippets}/test-search-customer-by-name/http-response.adoc[]
+
+=== Search by City id
+include::{snippets}/test-search-customer-by-city/http-request.adoc[]
+include::{snippets}/test-search-customer-by-city/http-response.adoc[]

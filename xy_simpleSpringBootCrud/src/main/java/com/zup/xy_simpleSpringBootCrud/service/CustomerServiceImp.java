@@ -34,7 +34,7 @@ public class CustomerServiceImp implements CustomerService {
     public Page<Customer> searchByCityId(Pageable pageable, Long cityId) {
 
         City city = cityService.findOne(cityId);
-        return customerRepository.findByCityId(pageable,city);
+        return customerRepository.findByCity(pageable,city);
     }
 
     @Override
@@ -47,19 +47,29 @@ public class CustomerServiceImp implements CustomerService {
     @Override
     public Customer create(Customer customer) {
         customer.setId(0);
+        customer = loadCityInCustomer(customer);
         return customerRepository.saveAndFlush(customer);
     }
 
     @Override
     public Customer update(Customer customer) {
 
+
         Optional<Customer> customerById = customerRepository.findById(customer.getId());
         if(!customerById.isPresent()){
             throw new FieldException("Customer Id not fould");
         }
-
+        customer = loadCityInCustomer(customer);
         return customerRepository.saveAndFlush(customer);
     }
+
+    private Customer loadCityInCustomer(Customer customer){
+        City city = cityService.findOne(customer.getCity().getId());
+        if(city == null)throw new FieldException("Customer city not fould");
+        customer.setCity(city);
+        return customer;
+    }
+
 
     @Override
     public void delete(long id) {

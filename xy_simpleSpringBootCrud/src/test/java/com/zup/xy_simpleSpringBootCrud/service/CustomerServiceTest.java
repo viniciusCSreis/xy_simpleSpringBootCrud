@@ -48,6 +48,7 @@ public class CustomerServiceTest {
         Customer customerCreated = new Customer("Vinicius",new City(1,"Uberlândia"));
         customerCreated.setId(1);
         when(customerRepository.saveAndFlush(customer)).thenReturn(customerCreated);
+        when(cityService.findOne(customer.getCity().getId())).thenReturn(customer.getCity());
 
         Customer result = customerServiceImp.create(customer);
 
@@ -126,7 +127,7 @@ public class CustomerServiceTest {
         PageRequest pageRequest = new PageRequest(0, 20);
 
         Page<Customer> page = new PageImpl<>(customers);
-        when(customerRepository.findByCityId(pageRequest,city)).thenReturn(page);
+        when(customerRepository.findByCity(pageRequest,city)).thenReturn(page);
         when(cityService.findOne(cityId)).thenReturn(city);
 
         Page<Customer> pageResult = customerServiceImp.searchByCityId(pageRequest,cityId);
@@ -137,7 +138,7 @@ public class CustomerServiceTest {
         assertThat(result.get(0),is(customers.get(0)));
         assertThat(result.get(1),is(customers.get(1)));
 
-        verify(customerRepository,atLeast(1)).findByCityId(pageRequest,city);
+        verify(customerRepository,atLeast(1)).findByCity(pageRequest,city);
         verify(cityService,atLeast(1)).findOne(cityId);
 
 
@@ -164,6 +165,7 @@ public class CustomerServiceTest {
         Optional<Customer> resultCity = Optional.of(customer);
         when(customerRepository.saveAndFlush(customer)).thenReturn(customer);
         when(customerRepository.findById(customer.getId())).thenReturn(resultCity);
+        when(cityService.findOne(customer.getCity().getId())).thenReturn(customer.getCity());
         Customer result = customerServiceImp.update(customer);
 
         assertThat(result,notNullValue());

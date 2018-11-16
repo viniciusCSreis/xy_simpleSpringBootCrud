@@ -45,6 +45,12 @@ public class CustomerControler {
         return customerService.findOne(id);
     }
 
+    @GetMapping(path = "customers/search/city/{id}")
+    public Page<Customer> searchByCity(Pageable pageable,@PathVariable long id){
+        return customerService.searchByCityId(pageable,id);
+    }
+
+
     @GetMapping(path = "customers/search/findByNameIgnoreCaseContaining")
     public Page<Customer> searchByName(Pageable pageable,@RequestParam String name){
         return customerService.searchByName(pageable,name);

@@ -1,11 +1,11 @@
-= Contatos API
+= Customer API
 :example-caption!:
 :source-highlighter: highlightjs
 :toc: left
 :toclevels: 5
 
 == Introdução
-Bem-vindo à documentação da API do painel de controle Contatos. Essa documentação da API fornecerá informações suficientes sobre os recursos e as operações suportadas na versão atual. Esta API está seguindo as convenções Restful.
+Bem-vindo à documentação da API do painel de controle customer. Essa documentação da API fornecerá informações suficientes sobre os recursos e as operações suportadas na versão atual. Esta API está seguindo as convenções Restful.
 
 === Como usar
 As solicitações devem ser feitas usando o protocolo HTTP. A interface responde a diferentes métodos, dependendo da ação necessária.

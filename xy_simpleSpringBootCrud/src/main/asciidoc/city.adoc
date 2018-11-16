@@ -25,6 +25,10 @@ include::{snippets}/test-update-city/http-response.adoc[]
 include::{snippets}/test-update-city-empty-name/http-request.adoc[]
 include::{snippets}/test-update-city-empty-name/http-response.adoc[]
 
+=== Edit city Wrong Id
+include::{snippets}/test-update-city-wrong-id/http-request.adoc[]
+include::{snippets}/test-update-city-wrong-id/http-response.adoc[]
+
 === Search by id
 include::{snippets}/test-search-by-id/http-request.adoc[]
 include::{snippets}/test-search-by-id/http-response.adoc[]

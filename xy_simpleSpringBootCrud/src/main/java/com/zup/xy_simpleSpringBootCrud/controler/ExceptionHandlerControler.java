@@ -38,12 +38,6 @@ public class ExceptionHandlerControler {
         return fieldErrorMessages;
     }
 
-    @ResponseBody
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(DataIntegrityViolationException.class)
-    public String exceptionHandlerDataIntegrity(DataIntegrityViolationException e){
-        return e.getMessage();
-    }
 
 
 }

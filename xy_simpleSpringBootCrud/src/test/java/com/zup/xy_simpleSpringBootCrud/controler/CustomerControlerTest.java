@@ -20,7 +20,6 @@ public class CustomerControlerTest extends AbstractTest {
     private final String PATH = "/customers";
     private City city1;
     private City city2;
-    private String customerNameJson = "TestCustomer";
 
     @Before
     public void createCity(){
@@ -40,13 +39,13 @@ public class CustomerControlerTest extends AbstractTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.content",Matchers.hasSize(2)))
-                .andExpect(jsonPath("$.totalElements",Matchers.greaterThanOrEqualTo(5)));
+                .andExpect(jsonPath("$.totalElements",Matchers.greaterThanOrEqualTo(6)));
 
 
     }
 
     @Test
-    public void testSearchByName() throws Exception {
+    public void testSearchCustomerByName() throws Exception {
 
         saveAll();
         String paginationArgs = "page=0&size=1&sort=name,desc";
@@ -60,7 +59,7 @@ public class CustomerControlerTest extends AbstractTest {
     }
 
     @Test
-    public void testSearchById() throws Exception {
+    public void testSearchCustomerById() throws Exception {
 
         Customer customer = saveOneCustomer();
 
@@ -74,9 +73,24 @@ public class CustomerControlerTest extends AbstractTest {
     }
 
     @Test
+    public void testSearchCustomerByCity() throws Exception {
+
+        Customer customer = saveOneCustomer();
+        saveAll();
+
+        String paginationArgs = "page=0&size=3&sort=name,desc";
+        this.mockMvc.perform(get(PATH+"/search/city/"+customer.getCity().getId()+"?"+paginationArgs))
+                .andDo(print())
+                .andExpect(jsonPath("$.content",Matchers.hasSize(3)))
+                .andExpect(jsonPath("$.totalElements",Matchers.greaterThanOrEqualTo(5)));
+
+    }
+
+    @Test
     public void testCreateCustomer() throws Exception {
 
 
+        String customerNameJson = "TestCustomer";
         Customer customer = new Customer(customerNameJson,city1);
         ObjectMapper objectMapper = new ObjectMapper();
         String jsonContent = objectMapper.writeValueAsString(customer);
@@ -96,7 +110,7 @@ public class CustomerControlerTest extends AbstractTest {
 
         this.mockMvc.perform(post(PATH).content(jsonContent).characterEncoding("utf-8").contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isNotFound());
 
     }
 
@@ -114,40 +128,16 @@ public class CustomerControlerTest extends AbstractTest {
     }
 
     @Test
-    public void testUpdateCustomerName() throws Exception {
+    public void testUpdateCustomerWrongCity() throws Exception {
 
         Customer customer = saveOneCustomer();
-        customer.setName("NewName");
+        customer.setCity(new City(1000,"teste"));
         ObjectMapper objectMapper = new ObjectMapper();
         String jsonContent = objectMapper.writeValueAsString(customer);
 
         this.mockMvc.perform(put(PATH+"/"+customer.getId()).content(jsonContent).characterEncoding("utf-8").contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("id", Matchers.is((int)customer.getId())))
-                .andExpect(jsonPath("name",Matchers.is(customer.getName())))
-                .andExpect(jsonPath("city.id",Matchers.is((int)customer.getCity().getId())))
-                .andExpect(jsonPath("city.name",Matchers.is(customer.getCity().getName())));
-
-
-    }
-
-    @Test
-    public void testUpdateCustomerCity() throws Exception {
-
-        Customer customer = saveOneCustomer();
-        customer.setCity(city2);
-        ObjectMapper objectMapper = new ObjectMapper();
-        String jsonContent = objectMapper.writeValueAsString(customer);
-
-        this.mockMvc.perform(put(PATH+"/"+customer.getId()).content(jsonContent).characterEncoding("utf-8").contentType(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("id", Matchers.is((int)customer.getId())))
-                .andExpect(jsonPath("name",Matchers.is(customer.getName())))
-                .andExpect(jsonPath("city.id",Matchers.is((int)customer.getCity().getId())))
-                .andExpect(jsonPath("city.name",Matchers.is(customer.getCity().getName())));
-
+                .andExpect(status().isNotFound());
 
     }
 
@@ -172,7 +162,7 @@ public class CustomerControlerTest extends AbstractTest {
     }
 
     @Test
-    public void testUpdateCityEmptyName() throws Exception {
+    public void testUpdateCustomerEmptyName() throws Exception {
 
         Customer customer = saveOneCustomer();
 
@@ -187,7 +177,7 @@ public class CustomerControlerTest extends AbstractTest {
     }
 
     @Test
-    public void testUpdateCityWrongId() throws Exception {
+    public void testUpdateCustomerWrongId() throws Exception {
 
         Customer customer = saveOneCustomer();
 
