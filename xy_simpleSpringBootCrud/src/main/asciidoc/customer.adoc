@@ -13,6 +13,13 @@ include::{snippets}/test-create-customer/http-response.adoc[]
 include::{snippets}/test-create-customer-empty-name/http-request.adoc[]
 include::{snippets}/test-create-customer-empty-name/http-response.adoc[]
 
+=== Create customer with Empty city id
+include::{snippets}/test-create-customer-empty-city/http-request.adoc[]
+include::{snippets}/test-create-customer-empty-city/http-response.adoc[]
+
+=== Create customer with Empty city id and name
+include::{snippets}/test-create-customer-empty-city-and-name/http-request.adoc[]
+include::{snippets}/test-create-customer-empty-city-and-name/http-response.adoc[]
 
 === Create customer with Wrong city id
 include::{snippets}/test-create-customer-wrong-city/http-request.adoc[]

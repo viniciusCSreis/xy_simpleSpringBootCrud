@@ -172,16 +172,13 @@ public class CustomerControlerTest extends AbstractTest {
 
     }
     @Test
-    public void testCreateCustomerEmptyCityandName() throws Exception {
+    public void testCreateCustomerEmptyCityAndName() throws Exception {
 
 
         String customerNameJson = "";
 
         Map<String, Object> data = new HashMap<>();
-        Map<String, String> dataCity = new HashMap<>();
-        dataCity.put("id",valueOf(city1.getId()*1000));
         data.put("name",customerNameJson);
-        data.put("city",dataCity);
 
         String jsonContent = JSONObject.toJSONString(data);
 
@@ -274,7 +271,7 @@ public class CustomerControlerTest extends AbstractTest {
         Map<String, Object> data = new HashMap<>();
         Map<String, String> dataCity = new HashMap<>();
 
-        dataCity.put("id",valueOf(city2.getId()*1000));
+        dataCity.put("id",valueOf(city2.getId()));
 
         data.put("name",customerNameJson);
         data.put("city",dataCity);
