@@ -4,7 +4,7 @@ import com.zup.xy_simpleSpringBootCrud.controler.CustomerControler;
 import com.zup.xy_simpleSpringBootCrud.model.City;
 import com.zup.xy_simpleSpringBootCrud.model.Customer;
 import com.zup.xy_simpleSpringBootCrud.service.CustomerService;
-import org.apache.commons.io.IOUtils;
+import net.minidev.json.JSONObject;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,8 +19,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import static java.lang.String.valueOf;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.notNull;
@@ -45,8 +48,19 @@ public class CustomerControlerMockTest {
 
     @Test
     public void testCreate() throws Exception {
-        String jsonContent = IOUtils.toString(getClass().getClassLoader().getResourceAsStream("payload/createCity.json"));
-        Customer customerCreated = new Customer("TestCustomer",new City(1,"Uberlândia"));
+
+        City city1 = new City(1,"Uberlândia");
+
+        String customerNameJson = "TestCustomer";
+
+        Map<String, Object> data = new HashMap<>();
+        Map<String, String> dataCity = new HashMap<>();
+        dataCity.put("id",valueOf(city1.getId()));
+        data.put("name",customerNameJson);
+        data.put("city",dataCity);
+
+        String jsonContent = JSONObject.toJSONString(data);
+        Customer customerCreated = new Customer("TestCustomer",city1);
         customerCreated.setId(1);
 
         Mockito.when(customerService.create(notNull())).thenReturn(customerCreated);
@@ -72,12 +86,22 @@ public class CustomerControlerMockTest {
     @Test
     public void testPutName() throws Exception {
 
-        String name = "Clemente";
-        long id = 1;
-        Customer customer = new Customer(name,new City(1,"Uberlândia"));
-        customer.setId(id);
-        String jsonContent = IOUtils.toString(getClass().getClassLoader().getResourceAsStream("payload/createCustomer.json"));
+        City city1 = new City(1,"Uberlândia");
 
+        String name = "Clemente";
+
+        Map<String, Object> data = new HashMap<>();
+        Map<String, String> dataCity = new HashMap<>();
+        dataCity.put("id",valueOf(city1.getId()));
+        data.put("name",name);
+        data.put("city",dataCity);
+
+        String jsonContent = JSONObject.toJSONString(data);
+
+
+        long id = 1;
+        Customer customer = new Customer(name,city1);
+        customer.setId(id);
         Mockito.when(customerService.update(notNull())).thenReturn(customer);
 
         mockMvc.perform(put("/customers/"+id).contentType(MediaType.APPLICATION_JSON)

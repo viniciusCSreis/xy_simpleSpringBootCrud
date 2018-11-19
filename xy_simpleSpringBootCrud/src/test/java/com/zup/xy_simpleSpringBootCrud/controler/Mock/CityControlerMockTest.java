@@ -3,7 +3,7 @@ package com.zup.xy_simpleSpringBootCrud.controler.Mock;
 import com.zup.xy_simpleSpringBootCrud.controler.CityControler;
 import com.zup.xy_simpleSpringBootCrud.model.City;
 import com.zup.xy_simpleSpringBootCrud.service.CityService;
-import org.apache.commons.io.IOUtils;
+import net.minidev.json.JSONObject;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,7 +18,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -95,8 +97,14 @@ public class CityControlerMockTest {
 
     @Test
     public void testCreate() throws Exception {
-        String jsonContent = IOUtils.toString(getClass().getClassLoader().getResourceAsStream("payload/createCity.json"));
-        City cityCreated = new City(1,"Uberlândia");
+        String nameCity = "Uberlândia";
+        long id = 1;
+        City cityCreated = new City(id,nameCity);
+
+        Map<String, String> data = new HashMap<>();
+        data.put("name",nameCity);
+
+        String jsonContent = JSONObject.toJSONString(data);
 
         Mockito.when(cityService.create(notNull())).thenReturn(cityCreated);
 
@@ -121,8 +129,11 @@ public class CityControlerMockTest {
         String nameCity = "Uberlândia";
         long id = 1;
         City cityTobeUpdated = new City(id,nameCity);
-        String jsonContent = IOUtils.toString(getClass().getClassLoader().getResourceAsStream("payload/createCity.json"));
 
+        Map<String, String> data = new HashMap<>();
+        data.put("name",nameCity);
+
+        String jsonContent = JSONObject.toJSONString(data);
         Mockito.when(cityService.update(notNull())).thenReturn(cityTobeUpdated);
 
             mockMvc.perform(put("/cities/"+id).contentType(MediaType.APPLICATION_JSON)

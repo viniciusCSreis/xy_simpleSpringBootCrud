@@ -6,6 +6,7 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Customer {
@@ -18,6 +19,7 @@ public class Customer {
     @NotBlank
     private String name;
 
+    @NotNull
     @ManyToOne
     private City city;
 

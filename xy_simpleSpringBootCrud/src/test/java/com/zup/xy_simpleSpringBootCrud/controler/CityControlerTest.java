@@ -3,7 +3,6 @@ package com.zup.xy_simpleSpringBootCrud.controler;
 import com.zup.xy_simpleSpringBootCrud.AbstractTest;
 import com.zup.xy_simpleSpringBootCrud.model.City;
 import net.minidev.json.JSONObject;
-import org.apache.commons.io.IOUtils;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -68,8 +67,12 @@ public class CityControlerTest extends AbstractTest {
     @Test
     public void testCreateCity() throws Exception {
 
-        String jsonContent = IOUtils.toString(getClass().getClassLoader().getResourceAsStream("payload/createCity.json"));
+        String name = "Uberlândia";
 
+        Map<String, String> data = new HashMap<>();
+        data.put("name",name);
+
+        String jsonContent = JSONObject.toJSONString(data);
         this.mockMvc.perform(post(PATH).content(jsonContent).characterEncoding("utf-8").contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isCreated())
@@ -100,13 +103,18 @@ public class CityControlerTest extends AbstractTest {
 
         City city = saveOneCity();
 
-        String jsonContent = IOUtils.toString(getClass().getClassLoader().getResourceAsStream("payload/createCity.json"));
+        String name = "Uberlândia";
+
+        Map<String, String> data = new HashMap<>();
+        data.put("name",name);
+
+        String jsonContent = JSONObject.toJSONString(data);
 
         this.mockMvc.perform(put(PATH+"/"+city.getId()).content(jsonContent).characterEncoding("utf-8").contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("id", Matchers.is((int)city.getId())))
-                .andExpect(jsonPath("name",Matchers.is("Uberlândia")));
+                .andExpect(jsonPath("name",Matchers.is(name)));
 
 
     }
@@ -134,7 +142,12 @@ public class CityControlerTest extends AbstractTest {
         City city = saveOneCity();
 
 
-        String jsonContent = IOUtils.toString(getClass().getClassLoader().getResourceAsStream("payload/createCity.json"));
+        String name = "Uberlândia";
+
+        Map<String, String> data = new HashMap<>();
+        data.put("name",name);
+
+        String jsonContent = JSONObject.toJSONString(data);
 
         this.mockMvc.perform(put(PATH+"/"+city.getId()+1000).content(jsonContent).characterEncoding("utf-8").contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
