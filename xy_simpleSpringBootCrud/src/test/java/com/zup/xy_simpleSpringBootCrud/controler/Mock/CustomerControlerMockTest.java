@@ -1,5 +1,6 @@
-package com.zup.xy_simpleSpringBootCrud.controler;
+package com.zup.xy_simpleSpringBootCrud.controler.Mock;
 
+import com.zup.xy_simpleSpringBootCrud.controler.CustomerControler;
 import com.zup.xy_simpleSpringBootCrud.model.City;
 import com.zup.xy_simpleSpringBootCrud.model.Customer;
 import com.zup.xy_simpleSpringBootCrud.service.CustomerService;
@@ -20,6 +21,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.notNull;
 import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.verify;
@@ -139,6 +142,88 @@ public class CustomerControlerMockTest {
 
         verify(customerService,atLeast(1)).findAll(notNull());
 
+
+    }
+
+
+    @Test
+    public void testSearchById() throws Exception {
+
+        Customer customer = new Customer("TestCustomer",new City(1,"Uberlândia"));
+        customer.setId(1);
+
+        Mockito.when(customerService.findOne(anyLong())).thenReturn(customer);
+
+
+        mockMvc.perform(get("/customers/1"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", Matchers.notNullValue()))
+                .andExpect(jsonPath("$.name",Matchers.is(customer.getName())))
+                .andExpect(jsonPath("$.id",Matchers.is((int)customer.getId())))
+                .andExpect(jsonPath("$.city.id",Matchers.is((int)customer.getCity().getId())))
+                .andExpect(jsonPath("$.city.name",Matchers.is(customer.getCity().getName())));
+
+        verify(customerService,atLeast(1)).findOne(anyLong());
+
+    }
+
+    @Test
+    public void testSearchByCity() throws Exception {
+        List<Customer> customers = new ArrayList<>();
+
+        City city = new City(1,"Uberlândia");
+        customers.add(new Customer("Vinicius",city));
+        customers.add(new Customer("Gabriel",city));
+
+        Page<Customer> page = new PageImpl<>(customers);
+
+        String paginationArgs = "page=0&size=2&sort=name,desc";
+
+        when(customerService.searchByCityId(notNull(),anyLong())).thenReturn(page);
+
+
+        mockMvc.perform(get("/customers/search/city/1?"+paginationArgs))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content",Matchers.hasSize(customers.size())))
+                .andExpect(jsonPath("$.content[0].id",Matchers.is((int)customers.get(0).getId())))
+                .andExpect(jsonPath("$.content[0].name",Matchers.is(customers.get(0).getName())))
+                .andExpect(jsonPath("$.content[1].id",Matchers.is((int)customers.get(1).getId())))
+                .andExpect(jsonPath("$.content[1].name",Matchers.is(customers.get(1).getName())))
+                .andExpect(jsonPath("$.numberOfElements",Matchers.is(customers.size())));
+
+        verify(customerService,atLeast(1)).searchByCityId(notNull(),anyLong());
+
+    }
+
+    @Test
+    public void testSearchByName() throws Exception {
+
+        List<Customer> customers = new ArrayList<>();
+
+        City city = new City(1,"Uberlândia");
+        customers.add(new Customer("Vinicius",city));
+        customers.add(new Customer("Vitor",city));
+
+        Page<Customer> page = new PageImpl<>(customers);
+
+        String paginationArgs = "page=0&size=2&sort=name,desc";
+
+        when(customerService.searchByName(notNull(),anyString())).thenReturn(page);
+
+
+        mockMvc.perform(get("/customers/search/findByNameIgnoreCaseContaining?name=vi&"+paginationArgs))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content",Matchers.hasSize(customers.size())))
+                .andExpect(jsonPath("$.content[0].id",Matchers.is((int)customers.get(0).getId())))
+                .andExpect(jsonPath("$.content[0].name",Matchers.is(customers.get(0).getName())))
+                .andExpect(jsonPath("$.content[1].id",Matchers.is((int)customers.get(1).getId())))
+                .andExpect(jsonPath("$.content[1].name",Matchers.is(customers.get(1).getName())))
+                .andExpect(jsonPath("$.numberOfElements",Matchers.is(customers.size())));
+
+        verify(customerService,atLeast(1)).searchByName(notNull(),anyString());
 
     }
 

@@ -1,5 +1,6 @@
-package com.zup.xy_simpleSpringBootCrud.controler;
+package com.zup.xy_simpleSpringBootCrud.controler.Mock;
 
+import com.zup.xy_simpleSpringBootCrud.controler.CityControler;
 import com.zup.xy_simpleSpringBootCrud.model.City;
 import com.zup.xy_simpleSpringBootCrud.service.CityService;
 import org.apache.commons.io.IOUtils;
@@ -19,6 +20,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.notNull;
 import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.verify;
@@ -41,6 +44,54 @@ public class CityControlerMockTest {
 
     @Autowired
     MockMvc mockMvc;
+
+    @Test
+    public void testSearchCityById() throws Exception {
+
+        City city = new City(1,"Uberlândia");
+
+
+        when(cityService.findOne(anyLong())).thenReturn(city);
+
+
+        mockMvc.perform(get("/cities/1"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$",Matchers.notNullValue()))
+                .andExpect(jsonPath("$.name",Matchers.is(city.getName())))
+                .andExpect(jsonPath("$.id",Matchers.is((int)city.getId())));
+
+        verify(cityService,atLeast(1)).findOne(anyLong());
+
+
+
+    }
+
+
+    @Test
+    public void testSearchCityByName() throws Exception {
+
+        List<City> cities = new ArrayList<>();
+
+        cities.add(new City(1,"Uberlândia"));
+        cities.add(new City(2,"Uberaba"));
+
+        Page<City> page = new PageImpl<>(cities);
+
+        when(cityService.searchByName(notNull(),notNull())).thenReturn(page);
+        String paginationArgs = "page=0&size=2&sort=name,desc";
+
+        mockMvc.perform(get("/cities/search/findByNameIgnoreCaseContaining?name=uber&"+paginationArgs))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content",Matchers.hasSize(2)))
+                .andExpect(jsonPath("$.content[0].id",Matchers.is((int)cities.get(0).getId())))
+                .andExpect(jsonPath("$.content[0].name",Matchers.is(cities.get(0).getName())))
+                .andExpect(jsonPath("$.numberOfElements",Matchers.is(cities.size())));
+
+        verify(cityService,atLeast(1)).searchByName(notNull(),notNull());
+    }
+
 
     @Test
     public void testCreate() throws Exception {

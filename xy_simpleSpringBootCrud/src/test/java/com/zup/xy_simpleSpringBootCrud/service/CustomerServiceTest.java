@@ -4,6 +4,7 @@ package com.zup.xy_simpleSpringBootCrud.service;
 import com.zup.xy_simpleSpringBootCrud.model.City;
 import com.zup.xy_simpleSpringBootCrud.model.Customer;
 import com.zup.xy_simpleSpringBootCrud.repository.CustomerRepository;
+import com.zup.xy_simpleSpringBootCrud.util.FieldException;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -59,6 +60,20 @@ public class CustomerServiceTest {
         verify(customerRepository,atLeast(1)).saveAndFlush(customer);
 
 
+
+    }
+    @Test(expected = FieldException.class)
+    public void testCreateCustomerCityNotFould(){
+
+        Customer customer = new Customer("Vinicius",new City(1,"Uberlândia"));
+        Customer customerCreated = new Customer("Vinicius",new City(1,"Uberlândia"));
+        customerCreated.setId(1);
+        when(cityService.findOne(customer.getCity().getId())).thenReturn(null);
+
+        customerServiceImp.create(customer);
+
+        verify(customerRepository,atLeast(0)).saveAndFlush(customer);
+        verify(cityService,atLeast(1)).findOne(customer.getCity().getId());
 
     }
 
@@ -173,6 +188,35 @@ public class CustomerServiceTest {
         assertThat(result.getName(), is(customer.getName()));
         assertThat(result.getCity(),is(customer.getCity()));
         verify(customerRepository,atLeast(1)).saveAndFlush(customer);
+    }
+
+    @Test(expected = FieldException.class)
+    public void testUpdateCustomerIdNotFould(){
+
+        Customer customer = new Customer("Vinicius",new City(1,"Uberlândia"));
+        customer.setId(1);
+        Optional<Customer> resultCity = Optional.empty();
+        when(customerRepository.findById(customer.getId())).thenReturn(resultCity);
+        customerServiceImp.update(customer);
+
+        verify(customerRepository,atLeast(0)).saveAndFlush(customer);
+        verify(customerRepository,atLeast(1)).findById(customer.getId());
+        verify(cityService,atLeast(0)).findOne(customer.getCity().getId());
+    }
+
+    @Test(expected = FieldException.class)
+    public void testUpdateCustomerCityNotFould(){
+
+        Customer customer = new Customer("Vinicius",new City(1,"Uberlândia"));
+        customer.setId(1);
+        Optional<Customer> resultCity = Optional.of(customer);
+        when(customerRepository.findById(customer.getId())).thenReturn(resultCity);
+        when(cityService.findOne(customer.getCity().getId())).thenReturn(null);
+        customerServiceImp.update(customer);
+
+        verify(customerRepository,atLeast(0)).saveAndFlush(customer);
+        verify(customerRepository,atLeast(1)).findById(customer.getId());
+        verify(cityService,atLeast(1)).findOne(customer.getCity().getId());
     }
 
     @Test

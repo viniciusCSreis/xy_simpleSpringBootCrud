@@ -2,6 +2,7 @@ package com.zup.xy_simpleSpringBootCrud.service;
 
 import com.zup.xy_simpleSpringBootCrud.model.City;
 import com.zup.xy_simpleSpringBootCrud.repository.CityRepository;
+import com.zup.xy_simpleSpringBootCrud.util.FieldException;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -138,6 +139,20 @@ public class CityServiceTest {
 
         verify(cityRepository,atLeast(1)).deleteById(id);
 
+
+    }
+
+    @Test(expected = FieldException.class)
+    public void testUpdateCityIdNotFound()
+    {
+        City city = new City(1,"Uberlândia");
+        Optional<City> cityResult = Optional.empty();
+        when(cityRepository.findById(city.getId())).thenReturn(cityResult);
+
+        cityService.update(city);
+
+        verify(cityRepository,atLeast(0)).saveAndFlush(city);
+        verify(cityRepository,atLeast(1)).findById(city.getId());
 
     }
 

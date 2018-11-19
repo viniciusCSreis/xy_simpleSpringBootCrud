@@ -65,8 +65,9 @@ public class CustomerServiceImp implements CustomerService {
 
     private Customer loadCityInCustomer(Customer customer){
         City city = cityService.findOne(customer.getCity().getId());
-        if(city == null)throw new FieldException("Customer city not fould");
-        customer.setCity(city);
+        if(city == null) {
+            throw new FieldException("Customer city not fould");
+        }customer.setCity(city);
         return customer;
     }
 
