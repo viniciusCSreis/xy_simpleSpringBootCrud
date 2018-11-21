@@ -153,16 +153,16 @@ public class CustomerControlerMockTest {
         mockMvc.perform(get("/customers"))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.content",Matchers.hasSize(customers.size())))
-                .andExpect(jsonPath("$.content[0].id",Matchers.is((int)customers.get(0).getId())))
-                .andExpect(jsonPath("$.content[0].name",Matchers.is(customers.get(0).getName())))
-                .andExpect(jsonPath("$.content[1].id",Matchers.is((int)customers.get(1).getId())))
-                .andExpect(jsonPath("$.content[1].name",Matchers.is(customers.get(1).getName())))
-                .andExpect(jsonPath("$.content[2].id",Matchers.is((int)customers.get(2).getId())))
-                .andExpect(jsonPath("$.content[2].name",Matchers.is(customers.get(2).getName())))
-                .andExpect(jsonPath("$.content[3].id",Matchers.is((int)customers.get(3).getId())))
-                .andExpect(jsonPath("$.content[3].name",Matchers.is(customers.get(3).getName())))
-                .andExpect(jsonPath("$.numberOfElements",Matchers.is(customers.size())));
+                .andExpect(jsonPath("$._embedded.customers",Matchers.hasSize(customers.size())))
+                .andExpect(jsonPath("$._embedded.customers[0].id",Matchers.is((int)customers.get(0).getId())))
+                .andExpect(jsonPath("$._embedded.customers[0].name",Matchers.is(customers.get(0).getName())))
+                .andExpect(jsonPath("$._embedded.customers[1].id",Matchers.is((int)customers.get(1).getId())))
+                .andExpect(jsonPath("$._embedded.customers[1].name",Matchers.is(customers.get(1).getName())))
+                .andExpect(jsonPath("$._embedded.customers[2].id",Matchers.is((int)customers.get(2).getId())))
+                .andExpect(jsonPath("$._embedded.customers[2].name",Matchers.is(customers.get(2).getName())))
+                .andExpect(jsonPath("$._embedded.customers[3].id",Matchers.is((int)customers.get(3).getId())))
+                .andExpect(jsonPath("$._embedded.customers[3].name",Matchers.is(customers.get(3).getName())))
+                .andExpect(jsonPath("$.page.totalElements",Matchers.is(customers.size())));
 
         verify(customerService,atLeast(1)).findAll(notNull());
 
@@ -210,12 +210,12 @@ public class CustomerControlerMockTest {
         mockMvc.perform(get("/customers/search/city/1?"+paginationArgs))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.content",Matchers.hasSize(customers.size())))
-                .andExpect(jsonPath("$.content[0].id",Matchers.is((int)customers.get(0).getId())))
-                .andExpect(jsonPath("$.content[0].name",Matchers.is(customers.get(0).getName())))
-                .andExpect(jsonPath("$.content[1].id",Matchers.is((int)customers.get(1).getId())))
-                .andExpect(jsonPath("$.content[1].name",Matchers.is(customers.get(1).getName())))
-                .andExpect(jsonPath("$.numberOfElements",Matchers.is(customers.size())));
+                .andExpect(jsonPath("$._embedded.customers",Matchers.hasSize(customers.size())))
+                .andExpect(jsonPath("$._embedded.customers[0].id",Matchers.is((int)customers.get(0).getId())))
+                .andExpect(jsonPath("$._embedded.customers[0].name",Matchers.is(customers.get(0).getName())))
+                .andExpect(jsonPath("$._embedded.customers[1].id",Matchers.is((int)customers.get(1).getId())))
+                .andExpect(jsonPath("$._embedded.customers[1].name",Matchers.is(customers.get(1).getName())))
+                .andExpect(jsonPath("$.page.totalElements",Matchers.is(customers.size())));
 
         verify(customerService,atLeast(1)).searchByCityId(notNull(),anyLong());
 
@@ -240,12 +240,12 @@ public class CustomerControlerMockTest {
         mockMvc.perform(get("/customers/search/findByNameIgnoreCaseContaining?name=vi&"+paginationArgs))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.content",Matchers.hasSize(customers.size())))
-                .andExpect(jsonPath("$.content[0].id",Matchers.is((int)customers.get(0).getId())))
-                .andExpect(jsonPath("$.content[0].name",Matchers.is(customers.get(0).getName())))
-                .andExpect(jsonPath("$.content[1].id",Matchers.is((int)customers.get(1).getId())))
-                .andExpect(jsonPath("$.content[1].name",Matchers.is(customers.get(1).getName())))
-                .andExpect(jsonPath("$.numberOfElements",Matchers.is(customers.size())));
+                .andExpect(jsonPath("$._embedded.customers",Matchers.hasSize(customers.size())))
+                .andExpect(jsonPath("$._embedded.customers[0].id",Matchers.is((int)customers.get(0).getId())))
+                .andExpect(jsonPath("$._embedded.customers[0].name",Matchers.is(customers.get(0).getName())))
+                .andExpect(jsonPath("$._embedded.customers[1].id",Matchers.is((int)customers.get(1).getId())))
+                .andExpect(jsonPath("$._embedded.customers[1].name",Matchers.is(customers.get(1).getName())))
+                .andExpect(jsonPath("$.page.totalElements",Matchers.is(customers.size())));
 
         verify(customerService,atLeast(1)).searchByName(notNull(),anyString());
 

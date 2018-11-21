@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static java.lang.String.valueOf;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.notNull;
@@ -86,10 +87,10 @@ public class CityControlerMockTest {
         mockMvc.perform(get("/cities/search/findByNameIgnoreCaseContaining?name=uber&"+paginationArgs))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.content",Matchers.hasSize(2)))
-                .andExpect(jsonPath("$.content[0].id",Matchers.is((int)cities.get(0).getId())))
-                .andExpect(jsonPath("$.content[0].name",Matchers.is(cities.get(0).getName())))
-                .andExpect(jsonPath("$.numberOfElements",Matchers.is(cities.size())));
+                .andExpect(jsonPath("$._embedded.cities",Matchers.hasSize(2)))
+                .andExpect(jsonPath("$._embedded.cities[0].id",Matchers.is((int)cities.get(0).getId())))
+                .andExpect(jsonPath("$._embedded.cities[0].name",Matchers.is(cities.get(0).getName())))
+                .andExpect(jsonPath("$.page.totalElements",Matchers.is(cities.size())));
 
         verify(cityService,atLeast(1)).searchByName(notNull(),notNull());
     }
@@ -183,16 +184,16 @@ public class CityControlerMockTest {
             mockMvc.perform(get("/cities"))
                     .andDo(print())
                     .andExpect(status().isOk())
-                    .andExpect(jsonPath("$.content",Matchers.hasSize(cities.size())))
-                    .andExpect(jsonPath("$.content[0].id",Matchers.is((int)cities.get(0).getId())))
-                    .andExpect(jsonPath("$.content[0].name",Matchers.is(cities.get(0).getName())))
-                    .andExpect(jsonPath("$.content[1].id",Matchers.is((int)cities.get(1).getId())))
-                    .andExpect(jsonPath("$.content[1].name",Matchers.is(cities.get(1).getName())))
-                    .andExpect(jsonPath("$.content[2].id",Matchers.is((int)cities.get(2).getId())))
-                    .andExpect(jsonPath("$.content[2].name",Matchers.is(cities.get(2).getName())))
-                    .andExpect(jsonPath("$.content[3].id",Matchers.is((int)cities.get(3).getId())))
-                    .andExpect(jsonPath("$.content[3].name",Matchers.is(cities.get(3).getName())))
-                    .andExpect(jsonPath("$.numberOfElements",Matchers.is(cities.size())));
+                    .andExpect(jsonPath("$._embedded.cities",Matchers.hasSize(cities.size())))
+                    .andExpect(jsonPath("$._embedded.cities[0].id",Matchers.is((int)cities.get(0).getId())))
+                    .andExpect(jsonPath("$._embedded.cities[0].name",Matchers.is(cities.get(0).getName())))
+                    .andExpect(jsonPath("$._embedded.cities[1].id",Matchers.is((int)cities.get(1).getId())))
+                    .andExpect(jsonPath("$._embedded.cities[1].name",Matchers.is(cities.get(1).getName())))
+                    .andExpect(jsonPath("$._embedded.cities[2].id",Matchers.is((int)cities.get(2).getId())))
+                    .andExpect(jsonPath("$._embedded.cities[2].name",Matchers.is(cities.get(2).getName())))
+                    .andExpect(jsonPath("$._embedded.cities[3].id",Matchers.is((int)cities.get(3).getId())))
+                    .andExpect(jsonPath("$._embedded.cities[3].name",Matchers.is(cities.get(3).getName())))
+                    .andExpect(jsonPath("$.page.totalElements",Matchers.is(cities.size())));
 
             verify(cityService,atLeast(1)).findAll(notNull());
 

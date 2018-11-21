@@ -1,7 +1,9 @@
 package com.zup.xy_simpleSpringBootCrud.controler;
 
+import com.zup.xy_simpleSpringBootCrud.model.CustomPage;
 import com.zup.xy_simpleSpringBootCrud.model.Customer;
 import com.zup.xy_simpleSpringBootCrud.service.CustomerService;
+import com.zup.xy_simpleSpringBootCrud.util.CustomPageLoader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,8 +26,10 @@ public class CustomerControler {
     }
 
     @GetMapping(path = "customers")
-    public Page<Customer> list(Pageable pageable){
-        return customerService.findAll(pageable);
+    public CustomPage list(Pageable pageable){
+
+        Page<Customer> page = customerService.findAll(pageable);
+        return CustomPageLoader.loadCustomPage(page,"customers");
     }
 
     @DeleteMapping(path = "customers/{id}" )
@@ -46,14 +50,16 @@ public class CustomerControler {
     }
 
     @GetMapping(path = "customers/search/city/{id}")
-    public Page<Customer> searchByCity(Pageable pageable,@PathVariable long id){
-        return customerService.searchByCityId(pageable,id);
+    public CustomPage searchByCity(Pageable pageable,@PathVariable long id){
+        Page<Customer> page =  customerService.searchByCityId(pageable,id);
+        return CustomPageLoader.loadCustomPage(page,"customers");
     }
 
 
     @GetMapping(path = "customers/search/findByNameIgnoreCaseContaining")
-    public Page<Customer> searchByName(Pageable pageable,@RequestParam String name){
-        return customerService.searchByName(pageable,name);
+    public CustomPage searchByName(Pageable pageable, @RequestParam String name){
+        Page<Customer> page = customerService.searchByName(pageable,name);
+        return CustomPageLoader.loadCustomPage(page,"customers");
     }
 
 

@@ -42,8 +42,8 @@ public class CustomerControlerTest extends AbstractTest {
         this.mockMvc.perform(get(PATH+"?"+paginationArgs))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.content",Matchers.hasSize(2)))
-                .andExpect(jsonPath("$.totalElements",Matchers.greaterThanOrEqualTo(6)));
+                .andExpect(jsonPath("$._embedded.customers",Matchers.hasSize(2)))
+                .andExpect(jsonPath("$.page.totalElements",Matchers.greaterThanOrEqualTo(5)));
 
 
     }
@@ -56,8 +56,8 @@ public class CustomerControlerTest extends AbstractTest {
         this.mockMvc.perform(get(PATH+"/search/findByNameIgnoreCaseContaining?name=vi&"+paginationArgs))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.content",Matchers.hasSize(1)))
-                .andExpect(jsonPath("$.totalElements",Matchers.is(2)));
+                .andExpect(jsonPath("$._embedded.customers",Matchers.hasSize(1)))
+                .andExpect(jsonPath("$.page.totalElements",Matchers.is(2)));
 
 
     }
@@ -85,8 +85,8 @@ public class CustomerControlerTest extends AbstractTest {
         String paginationArgs = "page=0&size=3&sort=name,desc";
         this.mockMvc.perform(get(PATH+"/search/city/"+customer.getCity().getId()+"?"+paginationArgs))
                 .andDo(print())
-                .andExpect(jsonPath("$.content",Matchers.hasSize(3)))
-                .andExpect(jsonPath("$.totalElements",Matchers.greaterThanOrEqualTo(5)));
+                .andExpect(jsonPath("$._embedded.customers",Matchers.hasSize(3)))
+                .andExpect(jsonPath("$.page.totalElements",Matchers.greaterThanOrEqualTo(5)));
 
     }
 
