@@ -6,7 +6,7 @@ export default function Home() {
     <div>
       <div className="full-size">
         <Navbar />
-        <h1 className="welcome">Bem-vindo!</h1>
+        <h1 className="welcome">Bem-vindo Teste Deploy !</h1>
       </div>
     </div>
 
