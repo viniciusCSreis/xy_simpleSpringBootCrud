@@ -57,7 +57,7 @@ public class CustomerControlerTest extends AbstractTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$._embedded.customers",Matchers.hasSize(1)))
-                .andExpect(jsonPath("$.page.totalElements",Matchers.is(2)));
+                .andExpect(jsonPath("$.page.totalElements",Matchers.greaterThanOrEqualTo(2)));
 
 
     }
