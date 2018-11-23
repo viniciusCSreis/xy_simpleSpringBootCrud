@@ -1,0 +1,34 @@
+version: '3'
+services:
+  pgadmin4:
+    image: dpage/pgadmin4
+    volumes: 
+      - "./pgadmin:/var/lib/pgadmin"
+    container_name: pgadmin4-customers
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=vinicius.clemente@ufu.br
+      - PGADMIN_DEFAULT_PASSWORD=iftm@123
+    ports:
+      - "3001:80"
+    networks: 
+      - nt1Customers
+    depends_on:
+      - "postgres"
+  
+  postgres:
+    image: postgres:9.4
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=customers
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - MAX_CONNECTIONS=300
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+    container_name: postgres-customers
+    networks: 
+      - nt1Customers 
+networks: 
+  nt1Customers:
+    driver: bridge
