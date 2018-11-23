@@ -9,13 +9,13 @@
 	<packaging>jar</packaging>
 
 	<name>xy_simpleSpringBootCrud</name>
-	<description>Demo project for Spring Boot</description>
+	<description>First Rest Project</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.1.0.RELEASE</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath/>
 	</parent>
 
 	<properties>
@@ -29,7 +29,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
-		<!--Para automatizar build-->
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
@@ -42,26 +42,9 @@
 		</dependency>
 
 		<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
-			<scope>runtime</scope>
-		</dependency>
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<scope>runtime</scope>
-		</dependency>
-		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
-		</dependency>
-		<!--Para automatizar anotações de get and setter etc-->
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<version>1.16.18</version>
-			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
@@ -69,16 +52,16 @@
 			<artifactId>spring-restdocs-mockmvc</artifactId>
 			<scope>test</scope>
 		</dependency>
+
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<scope>runtime</scope>
 		</dependency>
 
 	</dependencies>
 
 	<build>
-		<finalName>rest-doc-application</finalName>
+		<finalName>customers-challenge-vinicius</finalName>
 		<resources>
 			<resource>
 				<directory>src/main/resources</directory>
@@ -119,26 +102,6 @@
 						</configuration>
 					</execution>
 				</executions>
-			</plugin>
-
-			<plugin>
-				<groupId>com.bazaarvoice.maven.plugins</groupId>
-				<artifactId>s3-upload-maven-plugin</artifactId>
-				<version>1.4</version>
-				<configuration>
-					<bucketName>contatodocumentation</bucketName>
-					<source>${project.build.directory}/generated-docs/index.html</source>
-					<destination>rest/doc/index.html</destination>
-					<endpoint>s3-sa-east-1.amazonaws.com</endpoint>
-					<recursive>true</recursive>
-				</configuration>
-				<dependencies>
-					<dependency>
-						<groupId>org.springframework.restdocs</groupId>
-						<artifactId>spring-restdocs-asciidoctor</artifactId>
-						<version>1.2.1.RELEASE</version>
-					</dependency>
-				</dependencies>
 			</plugin>
 
 			<plugin>
