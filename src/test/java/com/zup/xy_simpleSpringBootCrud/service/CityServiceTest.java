@@ -46,7 +46,7 @@ public class CityServiceTest {
         cities.add(new City(3,"São Paulo"));
         cities.add(new City(4,"Belo Horizonte"));
 
-        PageRequest pageRequest = new PageRequest(0, 20);
+        PageRequest pageRequest = PageRequest.of(0, 20);
 
         Page<City> page = new PageImpl<>(cities);
         when(cityRepository.findAll(pageRequest)).thenReturn(page);
@@ -185,7 +185,7 @@ public class CityServiceTest {
         cities.add(new City(1,"Uberlândia"));
         cities.add(new City(2,"Uberaba"));
 
-        PageRequest pageRequest = new PageRequest(0, 20);
+        PageRequest pageRequest = PageRequest.of(0, 20);
 
         Page<City> page = new PageImpl<>(cities);
         when(cityRepository.findByNameIgnoreCaseContaining(pageRequest,name)).thenReturn(page);

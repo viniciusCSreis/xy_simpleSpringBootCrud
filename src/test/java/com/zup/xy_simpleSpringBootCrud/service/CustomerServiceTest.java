@@ -87,7 +87,7 @@ public class CustomerServiceTest {
         customers.add(new Customer("Bruno",new City(1,"Uberaba")));
         customers.add(new Customer("Murilo",new City(1,"Uberlândia")));
 
-        PageRequest pageRequest = new PageRequest(0, 20);
+        PageRequest pageRequest = PageRequest.of(0, 20);
 
         Page<Customer> page = new PageImpl<>(customers);
         when(customerRepository.findAll(pageRequest)).thenReturn(page);
@@ -112,7 +112,7 @@ public class CustomerServiceTest {
 
         customers.add(new Customer("Vinicius",new City(1,"Uberlândia")));
         customers.add(new Customer("Vitor",new City(1,"Uberlândia")));
-        PageRequest pageRequest = new PageRequest(0, 20);
+        PageRequest pageRequest = PageRequest.of(0, 20);
 
         Page<Customer> page = new PageImpl<>(customers);
         when(customerRepository.findByNameIgnoreCaseContaining(pageRequest,name)).thenReturn(page);
@@ -139,7 +139,7 @@ public class CustomerServiceTest {
 
         customers.add(new Customer("Vinicius",city));
         customers.add(new Customer("Vitor",city));
-        PageRequest pageRequest = new PageRequest(0, 20);
+        PageRequest pageRequest = PageRequest.of(0, 20);
 
         Page<Customer> page = new PageImpl<>(customers);
         when(customerRepository.findByCity(pageRequest,city)).thenReturn(page);
