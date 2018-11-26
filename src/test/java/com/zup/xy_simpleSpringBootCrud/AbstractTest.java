@@ -13,6 +13,7 @@ import org.springframework.restdocs.JUnitRestDocumentation;
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation;
 import org.springframework.restdocs.mockmvc.RestDocumentationResultHandler;
 import org.springframework.restdocs.operation.preprocess.Preprocessors;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -24,6 +25,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 @WebAppConfiguration
 @SpringBootTest
+@ActiveProfiles("test")
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = Application.class)
 @Transactional
