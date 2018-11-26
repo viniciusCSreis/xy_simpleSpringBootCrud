@@ -16,8 +16,15 @@ import javax.validation.Valid;
 public class CustomerControler {
 
 
+
+    private final CustomerService customerService;
+
+    private String jsonName="customers";
+
     @Autowired
-    CustomerService customerService;
+    public CustomerControler(CustomerService customerService) {
+        this.customerService = customerService;
+    }
 
     @PostMapping(path = "customers")
     @ResponseStatus(HttpStatus.CREATED)
@@ -29,7 +36,7 @@ public class CustomerControler {
     public CustomPage list(Pageable pageable){
 
         Page<Customer> page = customerService.findAll(pageable);
-        return CustomPageLoader.loadCustomPage(page,"customers");
+        return CustomPageLoader.loadCustomPage(page,jsonName);
     }
 
     @DeleteMapping(path = "customers/{id}" )
@@ -52,14 +59,14 @@ public class CustomerControler {
     @GetMapping(path = "customers/search/city/{id}")
     public CustomPage searchByCity(Pageable pageable,@PathVariable long id){
         Page<Customer> page =  customerService.searchByCityId(pageable,id);
-        return CustomPageLoader.loadCustomPage(page,"customers");
+        return CustomPageLoader.loadCustomPage(page,jsonName);
     }
 
 
     @GetMapping(path = "customers/search/findByNameIgnoreCaseContaining")
     public CustomPage searchByName(Pageable pageable, @RequestParam String name){
         Page<Customer> page = customerService.searchByName(pageable,name);
-        return CustomPageLoader.loadCustomPage(page,"customers");
+        return CustomPageLoader.loadCustomPage(page,jsonName);
     }
 
 

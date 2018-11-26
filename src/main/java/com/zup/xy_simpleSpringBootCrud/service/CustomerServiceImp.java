@@ -14,11 +14,17 @@ import java.util.Optional;
 @Service
 public class CustomerServiceImp implements CustomerService {
 
-    @Autowired
-    CustomerRepository customerRepository;
+
+    private final CustomerRepository customerRepository;
+
+
+    private final CityService cityService;
 
     @Autowired
-    CityService cityService;
+    public CustomerServiceImp(CustomerRepository customerRepository, CityService cityService) {
+        this.customerRepository = customerRepository;
+        this.cityService = cityService;
+    }
 
     @Override
     public Page<Customer> findAll(Pageable pageable) {
@@ -47,7 +53,7 @@ public class CustomerServiceImp implements CustomerService {
     @Override
     public Customer create(Customer customer) {
         customer.setId(0);
-        customer = loadCityInCustomer(customer);
+        loadCityInCustomer(customer);
         return customerRepository.saveAndFlush(customer);
     }
 
@@ -59,16 +65,16 @@ public class CustomerServiceImp implements CustomerService {
         if(!customerById.isPresent()){
             throw new FieldException("Customer Id not fould");
         }
-        customer = loadCityInCustomer(customer);
+        loadCityInCustomer(customer);
         return customerRepository.saveAndFlush(customer);
     }
 
-    private Customer loadCityInCustomer(Customer customer){
+    private void loadCityInCustomer(Customer customer){
         City city = cityService.findOne(customer.getCity().getId());
         if(city == null) {
             throw new FieldException("Customer city not fould");
-        }customer.setCity(city);
-        return customer;
+        }
+        customer.setCity(city);
     }
 
 

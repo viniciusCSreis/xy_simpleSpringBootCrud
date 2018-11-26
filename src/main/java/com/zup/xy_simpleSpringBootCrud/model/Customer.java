@@ -1,8 +1,5 @@
 package com.zup.xy_simpleSpringBootCrud.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;

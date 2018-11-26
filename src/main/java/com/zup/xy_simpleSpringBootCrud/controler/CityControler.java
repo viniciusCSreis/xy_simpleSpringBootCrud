@@ -12,16 +12,18 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.Pageable;
 
 import javax.validation.Valid;
-import java.util.HashMap;
 
-import static java.lang.String.valueOf;
 
 @RestController
 public class CityControler {
 
 
+    private final CityService cityService;
+
     @Autowired
-    private CityService cityService;
+    public CityControler(CityService cityService) {
+        this.cityService = cityService;
+    }
 
 
     @GetMapping(path = "cities")
