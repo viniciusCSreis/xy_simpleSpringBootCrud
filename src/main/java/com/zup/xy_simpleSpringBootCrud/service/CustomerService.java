@@ -1,6 +1,5 @@
 package com.zup.xy_simpleSpringBootCrud.service;
 
-import com.zup.xy_simpleSpringBootCrud.model.City;
 import com.zup.xy_simpleSpringBootCrud.model.Customer;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

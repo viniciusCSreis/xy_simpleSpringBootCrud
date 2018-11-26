@@ -1,7 +1,6 @@
 package com.zup.xy_simpleSpringBootCrud.model;
 
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;

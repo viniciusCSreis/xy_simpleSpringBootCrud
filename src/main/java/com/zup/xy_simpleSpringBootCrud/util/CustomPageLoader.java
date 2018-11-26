@@ -8,6 +8,9 @@ import java.util.HashMap;
 import static java.lang.String.valueOf;
 
 public class CustomPageLoader {
+
+    private CustomPageLoader(){}
+
     public static CustomPage loadCustomPage(Page<?> page, String name){
         CustomPage customPage = new CustomPage();
         HashMap<String,Object> _embedded= new HashMap<>();
