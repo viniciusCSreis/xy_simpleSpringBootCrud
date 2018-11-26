@@ -20,9 +20,15 @@ public class SimpleCORSFilter implements Filter {
     }
 
     @Override
-    public void init(FilterConfig filterConfig) {throw new UnsupportedOperationException();}
+    public void init(FilterConfig filterConfig) {
+        //don't need to do anything
+
+    }
 
     @Override
-    public void destroy() {throw new UnsupportedOperationException();}
+    public void destroy() {
+        //don't need to do anything
+
+    }
 
 }
