@@ -22,9 +22,6 @@ public class SimpleCORSFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) {
         //don't need to do anything
-
-        throw new UnsupportedOperationException();
-
     }
 
     @Override
