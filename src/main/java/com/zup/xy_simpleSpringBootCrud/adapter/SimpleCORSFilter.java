@@ -23,6 +23,8 @@ public class SimpleCORSFilter implements Filter {
     public void init(FilterConfig filterConfig) {
         //don't need to do anything
 
+        throw new UnsupportedOperationException();
+
     }
 
     @Override
