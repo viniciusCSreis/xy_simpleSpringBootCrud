@@ -64,6 +64,10 @@ public class CityControler {
         return cityService.update(city);
     }
 
-
+    @PostMapping(path = "cities/teste")
+    @ResponseStatus(HttpStatus.CREATED)
+    public boolean createTeste(){
+        return cityService.createTeste();
+    }
 
 }

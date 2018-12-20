@@ -12,6 +12,7 @@ public interface CityService {
 
     City findOne(long id);
     City create(City city);
+    boolean createTeste();
     City update(City city);
     void delete(long id);
 
